@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt');
+
+*
+{
+  font-family: "Prompt";
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar
+{
+  overflow: hidden;
+  border-bottom: 1px solid #f2f2f2;
+  display: flex;
+  align-items: center;
+}
+
+.navbar h1
+{
+  
+  letter-spacing: 0.5%;
+  margin: 2%;
+  float: left;
+  color: #378805;
+}
+
+.navbar .links 
+{
+  float: right;
+  margin: 2%;
+  margin-left: auto;
+  align-items: center;
+}
+
+.navbar a
+{
+  margin-left: 25px;
+}
+
+.navbar a:hover
+{
+  color: #378805;
+}
+
+.loginForm 
+{
+  font-size: large;
+  text-align: center;
+  display: grid;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 12%;
+}
+
+.loginForm button
+{
+  font-size: large;
+  height: 150%;
+}
+
+.loginForm input
+{
+  text-align: center;
+  font-size: large;
+}
+
+.registerForm
+{
+  font-size: large;
+  text-align: center;
+  display: grid;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 1%;
+}
+
+.registerForm button
+{
+  font-size: large;
+  height: 150%;
+}
+
+.registerForm select
+{
+  text-align: center;
+  font-size: large;
+}
+
+.registerForm input
+{
+  text-align: center;
+  font-size: large;
+}
