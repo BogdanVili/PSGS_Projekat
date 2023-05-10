@@ -89,8 +89,30 @@ a:-webkit-any-link {
   font-size: large;
 }
 
-.registerForm input
+.productsPreview 
 {
-  text-align: center;
-  font-size: large;
+  display: flex;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 3%;
+  padding: 1%;
+  transition: 200ms;
+  border-radius: 20px;
+  border: 1px solid #f2f2f2;
+}
+
+.productsPreview:hover
+{
+  background-color: rgba(55, 136, 5, .50);
+}
+
+.productsPreview p, h2, img
+{
+  display: table-cell;
+  flex: 1;
+}
+
+.productsPreview img
+{
+  object-fit: contain;
 }
