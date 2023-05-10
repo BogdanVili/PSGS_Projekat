@@ -5,6 +5,19 @@
   font-family: "Prompt";
 }
 
+button
+{
+  border-radius: 20px;
+  font-size: large;
+  text-align: center;
+  border: 0;
+}
+
+button:hover
+{
+  color: #378805;
+}
+
 a:-webkit-any-link {
   text-decoration: none;
   color: inherit;
@@ -20,7 +33,6 @@ a:-webkit-any-link {
 
 .navbar h1
 {
-  
   letter-spacing: 0.5%;
   margin: 2%;
   float: left;
@@ -52,13 +64,15 @@ a:-webkit-any-link {
   display: grid;
   margin-left: 40%;
   margin-right: 40%;
-  margin-top: 12%;
+  margin-top: 10%;
+  padding: 40px;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
 }
 
 .loginForm button
 {
-  font-size: large;
-  height: 150%;
+  height: 50px;
 }
 
 .loginForm input
@@ -74,13 +88,21 @@ a:-webkit-any-link {
   display: grid;
   margin-left: 40%;
   margin-right: 40%;
-  margin-top: 1%;
+  margin-top: 2%;  
+  margin-bottom: 2%;
+  padding: 40px;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
+}
+.registerForm input
+{
+  text-align: center;
+  font-size: large;
 }
 
 .registerForm button
 {
-  font-size: large;
-  height: 150%;
+  height: 50px;
 }
 
 .registerForm select
@@ -89,30 +111,89 @@ a:-webkit-any-link {
   font-size: large;
 }
 
-.productsPreview 
+.productBuyerPreview, 
+.productSellerPreview, 
+.approveSellerPreview, 
+.productCartPreview
 {
   display: flex;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 3%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 2%;
   padding: 1%;
   transition: 200ms;
   border-radius: 20px;
   border: 1px solid #f2f2f2;
 }
 
-.productsPreview:hover
+.productBuyerPreview:hover, 
+.productSellerPreview:hover, 
+.approveSellerPreview:hover, 
+.productCartPreview:hover
 {
   background-color: rgba(55, 136, 5, .50);
 }
 
-.productsPreview p, h2, img
+.productBuyerPreview p, h2, img
 {
   display: table-cell;
   flex: 1;
 }
 
-.productsPreview img
+.productBuyerPreview img
 {
   object-fit: contain;
 }
+
+.productSellerPreview p, h2, img
+{
+  display: table-cell;
+  flex: 1;
+}
+
+.productSellerPreview img
+{
+  object-fit: contain;
+}
+
+.productCartPreview p, h2, img
+{
+  display: table-cell;
+  flex: 1;
+}
+
+.productCartPreview img
+{
+  object-fit: contain;
+}
+
+.orderButton
+{
+  display: flex;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 3%;
+  padding: 1%;
+  width: 60%;
+  justify-content: center;
+}
+
+.approveSellerPreview p, button
+{
+  display: table-cell;
+  flex: 1;
+  margin-left: 5%;
+}
+
+.approveSellerPreview .approveButton
+{
+  background-color: #53CF71;
+}
+
+.approveSellerPreview .denyButton
+{
+  background-color: #C62827;
+}
+
+
+
