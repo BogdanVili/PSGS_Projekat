@@ -6,17 +6,9 @@ using server.Models;
 
 namespace server.Services
 {
-    public interface IAccountService
-    {
-        BuyerDto AddBuyer(BuyerDto buyerDto);
-        SellerDto AddSeller(SellerDto sellerDto);
-        AdministratorDto EditAdmin(AdministratorDto administratorDto);
-        BuyerDto EditBuyer(BuyerDto buyerDto);
-        SellerDto EditSeller(SellerDto sellerDto);
-        object GetUser(string username, string password);
-    }
 
-    public class AccountService : IAccountService, IAccountService
+
+    public class AccountService : IAccountService
     {
         private readonly IMapper _mapper;
         private readonly StorePSGSDbContext _dbContext;
@@ -26,8 +18,14 @@ namespace server.Services
             _mapper = mapper;
             _dbContext = dbContext;
         }
+
         public SellerDto AddSeller(SellerDto sellerDto)
         {
+            if (_dbContext.Sellers.Any(s => s.Username == sellerDto.Username))
+            {
+                return null;
+            }
+
             Seller seller = _mapper.Map<Seller>(sellerDto);
             _dbContext.Sellers.Add(seller);
             _dbContext.SaveChanges();
@@ -37,6 +35,11 @@ namespace server.Services
 
         public BuyerDto AddBuyer(BuyerDto buyerDto)
         {
+            if(_dbContext.Buyers.Any(b => b.Username == buyerDto.Username))
+            {
+                return null;
+            }
+
             Buyer buyer = _mapper.Map<Buyer>(buyerDto);
             _dbContext.Buyers.Add(buyer);
             _dbContext.SaveChanges();
@@ -84,6 +87,16 @@ namespace server.Services
             _dbContext.SaveChanges();
 
             return _mapper.Map<BuyerDto>(buyer);
+        }
+
+        public SellerDto ApproveSeller(long sellerId, bool approval)
+        {
+            Seller seller = _dbContext.Sellers.Find(sellerId);
+            seller.Approval = approval;
+
+            _dbContext.SaveChanges();
+
+            return _mapper.Map<SellerDto>(seller);
         }
 
         public object GetUser(string username, string password)
