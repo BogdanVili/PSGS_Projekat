@@ -1,29 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt');
 
-*
+* 
 {
   font-family: "Prompt";
 }
 
-button
+body::-webkit-scrollbar 
+{
+  overflow: hidden;
+}
+
+html 
+{
+  overflow-y: scroll;
+}
+
+button 
 {
   border-radius: 20px;
   font-size: large;
   text-align: center;
   border: 0;
+  height: 75px;
 }
 
-button:hover
+button:hover 
 {
   color: #378805;
 }
 
-a:-webkit-any-link {
+a:-webkit-any-link 
+{
   text-decoration: none;
   color: inherit;
 }
 
-.navbar
+.navbar 
 {
   overflow: hidden;
   border-bottom: 1px solid #f2f2f2;
@@ -31,7 +43,7 @@ a:-webkit-any-link {
   align-items: center;
 }
 
-.navbar h1
+.navbar h1 
 {
   letter-spacing: 0.5%;
   margin: 2%;
@@ -47,12 +59,12 @@ a:-webkit-any-link {
   align-items: center;
 }
 
-.navbar a
+.navbar a 
 {
   margin-left: 25px;
 }
 
-.navbar a:hover
+.navbar a:hover 
 {
   color: #378805;
 }
@@ -124,6 +136,8 @@ a:-webkit-any-link {
   transition: 200ms;
   border-radius: 20px;
   border: 1px solid #f2f2f2;
+  align-items: center;
+  justify-content: center;
 }
 
 .productBuyerPreview:hover, 

@@ -17,7 +17,7 @@ const ProductsBuyer = () => {
                     <p>{product.amount}</p>
                     <p>{product.description}</p>
                     <img src={image} alt='img' height={100} width={100}></img>
-                    <input type='number'></input>
+                    <input type='number' placeholder='amount'></input>
                     <button>Buy</button>
                 </div>
             ))}  
