@@ -89,6 +89,11 @@ namespace server.Services
             return _mapper.Map<BuyerDto>(buyer);
         }
 
+        public List<SellerDto> GetSellers()
+        {
+            return _mapper.Map<List<SellerDto>>(_dbContext.Sellers);
+        }
+
         public SellerDto ApproveSeller(long sellerId, bool approval)
         {
             Seller seller = _dbContext.Sellers.Find(sellerId);
