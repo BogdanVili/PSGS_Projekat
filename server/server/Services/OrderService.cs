@@ -22,14 +22,7 @@ namespace server.Services
             Order order = _mapper.Map<Order>(orderDto);
             _dbContext.Orders.Add(order);
 
-            foreach (Product productFromOrder in order.Products)
-            {
-                Product product = _dbContext.Products.Find(productFromOrder.Id);
-
-                product.Amount -= productFromOrder.Amount;
-
-                _dbContext.SaveChanges();
-            }
+            UpdateProductAmount(order, subtractingAmount: true);
 
             _dbContext.SaveChanges();
 
@@ -39,6 +32,7 @@ namespace server.Services
         public void DeleteOrder(long id)
         {
             Order order = _dbContext.Orders.Find(id);
+
             var orderTimeElapsed = DateTime.Now - order.DeliveryTime;
             if (orderTimeElapsed.TotalHours >= 1)
             {
@@ -47,16 +41,32 @@ namespace server.Services
 
             _dbContext.Orders.Remove(order);
 
-            foreach (Product productFromOrder in order.Products)
-            {
-                Product product = _dbContext.Products.Find(productFromOrder.Id);
-
-                product.Amount += productFromOrder.Amount;
-
-                _dbContext.SaveChanges();
-            }
+            UpdateProductAmount(order, addingAmount: true);
 
             _dbContext.SaveChanges();
+        }
+
+        public List<OrderDto> GetAdminOrders(long adminId)
+        {
+            return _mapper.Map<List<OrderDto>>(_dbContext.Orders);
+        }
+
+        public List<OrderDto> GetSellerOrders(long sellerId)
+        {
+            List<Order> orders = _dbContext.Orders.Where(o => o.Products.Any(p => p.SellerId == sellerId)).ToList();
+            List<Order> returnOrders = new List<Order>();
+
+            foreach (Order order in orders)
+            {
+                returnOrders.Add(order);
+            }
+
+            foreach (Order order in returnOrders)
+            {
+                order.Products.RemoveAll(p => p.SellerId != sellerId);
+            }
+
+            return _mapper.Map<List<OrderDto>>(returnOrders);
         }
 
         public List<OrderDto> GetBuyerOrders(long buyerId)
@@ -66,22 +76,31 @@ namespace server.Services
             return _mapper.Map<List<OrderDto>>(orders);
         }
 
-        public List<OrderDto> GetSellerOrders(long sellerId)
+        public void UpdateProductAmount(Order order, bool subtractingAmount = false, bool addingAmount = false)
         {
-            List<Order> orders = _dbContext.Orders.Where(o => o.Products.Any(p => p.SellerId == sellerId)).ToList();
-            List<Order> returnOrders = new List<Order>();
-
-            foreach(Order order in orders)
+            if(subtractingAmount)
             {
-                returnOrders.Add(order);
-            }
+                foreach (Product productFromOrder in order.Products)
+                {
+                    Product product = _dbContext.Products.Find(productFromOrder.Id);
 
-            foreach(Order order in returnOrders)
+                    product.Amount -= productFromOrder.Amount;
+
+                    _dbContext.SaveChanges();
+                }
+            }   
+            
+            if(addingAmount)
             {
-                order.Products.RemoveAll(p => p.SellerId != sellerId);
-            }
+                foreach (Product productFromOrder in order.Products)
+                {
+                    Product product = _dbContext.Products.Find(productFromOrder.Id);
 
-            return _mapper.Map<List<OrderDto>>(returnOrders);
+                    product.Amount += productFromOrder.Amount;
+
+                    _dbContext.SaveChanges();
+                }
+            }
         }
     }
 }

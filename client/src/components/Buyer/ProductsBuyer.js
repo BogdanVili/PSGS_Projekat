@@ -10,6 +10,15 @@ const ProductsBuyer = () => {
 
     return (  
         <div className="productsBuyerShow">
+            <div className="productBuyerPreview">
+                <p>Name</p>
+                <p>Price</p>
+                <p>Total Amount</p>
+                <p>Description</p>
+                <p>Image</p>
+                <p>Order Amount</p>
+                <p></p>
+            </div>
             {products.map((product) => (
                 <div className="productBuyerPreview" key={product.id}>
                     <h2>{product.name}</h2>

@@ -10,6 +10,14 @@ const Cart = () => {
 
     return ( 
         <div className="productsCartShow">
+            <div className="productCartPreview">
+                <p>Name</p>
+                <p>Price</p>
+                <p>Amount</p>
+                <p>Description</p>
+                <p>Image</p>
+                <p></p>
+            </div>
             {products.map((product) => (
                 <div className="productCartPreview" key={product.id}>
                     <h2>{product.name}</h2>
