@@ -1,18 +1,33 @@
 import {useState} from "react"
-import axios from "axios"
-import {GetUserAccount} from '../services/AccountService.js'
+import {redirect, useNavigate} from 'react-router-dom'
+import {GetUserAccount} from '../services/AccountService'
+import LoginDto from "../dto/LoginDto"
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
+    const loginData = new LoginDto(username, password);
 
-    const LoginClick = async () => 
+    const LoginClick = (e) => 
     {
-        const resp = await axios.post(`http://localhost:7168/account/login`, {username: username, password: password}, { headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}}); 
+        e.preventDefault();
+        GetUserAccount(loginData)
+                    .then(data => {
+                        localStorage.setItem("userData", JSON.stringify(data));
+                        //console.log(JSON.parse(localStorage.getItem("userData")));
+                        navigate('/register');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+        
     }
 
     return ( 
-        <form className="loginForm">
+        <form className="loginForm" onSubmit={LoginClick}> 
             <label>Username:</label>
             <input type="text" 
                    required
@@ -28,7 +43,7 @@ const Login = () => {
             />
             <br/>
             <br/>
-            <button onClick={() => LoginClick()}>Login</button>
+            <button>Login</button>
         </form>
      );
 }
