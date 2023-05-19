@@ -1,4 +1,5 @@
 const Register = () => {
+    console.log(JSON.parse(localStorage.getItem("userData")));
     return (
     <form className="registerForm">
         <label>Username:</label>

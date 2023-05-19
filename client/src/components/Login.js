@@ -1,7 +1,8 @@
-import {useState} from "react"
+import {useContext, useState} from "react"
 import {redirect, useNavigate} from 'react-router-dom'
-import {GetUserAccount} from '../services/AccountService'
+import {GetUserAccount, LoggedInUseStateContext} from '../services/AccountService'
 import LoginDto from "../dto/LoginDto"
+import eventBus from "../services/EventBus"
 
 const Login = () => {
     const navigate = useNavigate();
@@ -16,7 +17,10 @@ const Login = () => {
         GetUserAccount(loginData)
                     .then(data => {
                         localStorage.setItem("userData", JSON.stringify(data));
-                        //console.log(JSON.parse(localStorage.getItem("userData")));
+                        localStorage.setItem("userType", JSON.stringify(data.type));
+                        eventBus.emit('loggedInChange', true);
+                        eventBus.emit('userTypeChange', JSON.stringify(data.type));
+
                         navigate('/register');
                     })
                     .catch(error => {

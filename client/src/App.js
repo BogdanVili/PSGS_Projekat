@@ -9,7 +9,6 @@ import Cart from './components/Buyer/Cart';
 
 function App() {
   return (
-    <Router>
       <div className="App">
         <Navbar/>
         <div className="app-content">
@@ -23,7 +22,6 @@ function App() {
           </Routes>
         </div>
       </div>
-    </Router>
   );
 }
 

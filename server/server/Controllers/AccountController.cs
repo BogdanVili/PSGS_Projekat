@@ -18,8 +18,7 @@ namespace server.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody]LoginDto login)
         {
-            //return Ok(_accountService.GetUser(login.Username, login.Password));
-            return Ok();
+            return Ok(_accountService.GetUser(login.Username, login.Password));
         }
 
         [HttpPost("registerSeller")]
