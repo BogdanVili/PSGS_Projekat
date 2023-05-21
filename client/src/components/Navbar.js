@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LoggedIn, GetUserType } from "../services/AccountService";
+import { LoggedIn, GetUserType, UserTypeIsSame } from "../services/AccountService";
 import { useState, useEffect } from "react";
 import eventBus from "../services/EventBus"
 
@@ -14,7 +14,7 @@ const Navbar = () => {
         };
 
         const handleUserTypeChange = (newUserType) => {
-          setUserType(newUserType);
+          setUserType(JSON.parse(newUserType));
         };
 
         eventBus.on('loggedInChange', handleLoggedInChange);
@@ -55,10 +55,12 @@ const Navbar = () => {
         <nav className="navbar">
             <h1>Shoppingholic</h1>
             <div className="links">
-                { GetUserType("ADMIN") === "0" ? <Link to="/productsBuyer">Products Buyer</Link> : null}
-                { GetUserType("ADMIN") === "0" ? <Link to="/productsSeller">Products Seller</Link> : null}
-                { GetUserType("ADMIN") === "0" ? <Link to="/approveSellers">Approve Sellers</Link> : null}
-                { GetUserType("ADMIN") === "0" ? <Link to="/cart">Cart</Link> : null}
+                { UserTypeIsSame("ADMIN") ? <Link to="/approveSellers">Approve Sellers</Link> : null} 
+
+                { UserTypeIsSame("SELLER") ? <Link to="/productsSeller">Products Seller</Link> : null}
+
+                { UserTypeIsSame("BUYER") ? <Link to="/productsBuyer">Products Buyer</Link> : null}
+                { UserTypeIsSame("BUYER") ? <Link to="/cart">Cart</Link> : null}
 
                 { loggedIn === true ? <a href="#" onClick={() => LogOut()}>Log Out</a> : null }
             </div>
