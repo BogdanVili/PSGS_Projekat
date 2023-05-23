@@ -3,6 +3,7 @@ using server.Dto;
 using server.Infrastructure;
 using server.Interfaces;
 using server.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace server.Services
 {
@@ -27,6 +28,7 @@ namespace server.Services
             }
 
             Seller seller = _mapper.Map<Seller>(sellerDto);
+
             _dbContext.Sellers.Add(seller);
             _dbContext.SaveChanges();
 
@@ -55,6 +57,7 @@ namespace server.Services
             admin.FirstAndLastName = administratorDto.FirstAndLastName;
             admin.DateOfBirth = administratorDto.DateOfBirth;
             admin.Address = administratorDto.Address;
+            admin.Image = administratorDto.Image;
 
             _dbContext.SaveChanges();
 
@@ -69,6 +72,7 @@ namespace server.Services
             seller.FirstAndLastName = sellerDto.FirstAndLastName;
             seller.DateOfBirth = sellerDto.DateOfBirth;
             seller.Address = sellerDto.Address;
+            seller.Image = sellerDto.Image;
 
             _dbContext.SaveChanges();
 
@@ -83,6 +87,7 @@ namespace server.Services
             buyer.FirstAndLastName = buyerDto.FirstAndLastName;
             buyer.DateOfBirth = buyerDto.DateOfBirth;
             buyer.Address = buyerDto.Address;
+            buyer.Image = buyerDto.Image;
 
             _dbContext.SaveChanges();
 
@@ -139,6 +144,33 @@ namespace server.Services
             return null;
         }
 
+        private string ConvertImageToBase64(IFormFile image)
+        {
+            string base64String = "";
 
+            if (image != null && image.Length > 0)
+            {
+                byte[] fileBytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    image.CopyTo(memoryStream);
+                    fileBytes = memoryStream.ToArray();
+                }
+
+                base64String = Convert.ToBase64String(fileBytes);
+            }
+
+            return base64String;
+        }
+
+        public IFormFile ConvertFromBase64(string base64String, string fileName)
+        {
+            byte[] fileBytes = Convert.FromBase64String(base64String);
+            MemoryStream memoryStream = new MemoryStream(fileBytes);
+
+            IFormFile formFile = new FormFile(memoryStream, 0, fileBytes.Length, null, fileName);
+
+            return formFile;
+        }
     }
 }

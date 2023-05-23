@@ -17,7 +17,7 @@ namespace server.Services
             _dbContext = dbContext;
         }
 
-        public List<ProductDto> GetProducts()
+        public List<ProductDto> GetAllProducts()
         {
             return _mapper.Map<List<ProductDto>>(_dbContext.Products.ToList());
         }
@@ -32,6 +32,8 @@ namespace server.Services
         public ProductDto AddProduct(ProductDto productDto)
         {
             Product product = _mapper.Map<Product>(productDto);
+            product.SellerId = productDto.SellerDto.Id;
+
             _dbContext.Products.Add(product);
 
             _dbContext.SaveChanges();
@@ -43,7 +45,7 @@ namespace server.Services
         {
             Product product = _dbContext.Products.Find(productDto.Id);
 
-            if(product == null)
+            if (product == null)
             {
                 return null;
             }

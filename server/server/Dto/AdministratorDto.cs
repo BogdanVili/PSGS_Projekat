@@ -12,5 +12,6 @@ namespace server.Dto
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
         public TypeOfUser Type { get; set; }
+        public string Image { get; set; }
     }
 }

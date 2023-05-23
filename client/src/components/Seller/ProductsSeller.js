@@ -1,12 +1,29 @@
 import {useState} from 'react';
-import image from '../../test_img/image1.jpg'
+import { GetSellerProducts } from '../../services/ProductService';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ProductsSeller = () => {
-    const [products, setProducts] = useState([
-        {id: 1, name: 'product1', price: 100, amount: 5, description: 'desc1longer'},
-        {id: 2, name: 'product2', price: 100, amount: 5, description: 'desc2'},
-        {id: 3, name: 'product3', price: 100, amount: 5, description: 'desc3'},
-    ])
+    const navigate = useNavigate();
+
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        console.log(userData.id);
+        GetSellerProducts(userData.id)
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+      }, []);
+
+    const HandleUpdate = (product) => {
+        navigate('/editProduct', { state: product });
+    };
 
     return (  
         <div className="productsSellerShow">
@@ -25,8 +42,8 @@ const ProductsSeller = () => {
                     <p>{product.price}</p>
                     <p>{product.amount}</p>
                     <p>{product.description}</p>
-                    <img src={image} alt='img' height={100} width={100}></img>
-                    <button>Update</button>
+                    <img src={product.image} alt='img' height={100} width={100}></img>
+                    <button onClick={() => HandleUpdate(product)}>Update</button>
                     <button>Delete</button>
                 </div>
             ))}  

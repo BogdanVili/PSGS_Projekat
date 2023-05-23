@@ -22,33 +22,33 @@ namespace server.Controllers
         }
 
         [HttpPost("registerSeller")]
-        public IActionResult Register(SellerDto sellerDto)
+        public IActionResult Register([FromBody]SellerDto sellerDto)
         {
             return Ok(_accountService.AddSeller(sellerDto));
         }
 
         [HttpPost("registerBuyer")]
-        public IActionResult Register(BuyerDto buyerDto)
+        public IActionResult Register([FromBody]BuyerDto buyerDto)
         {
             return Ok(_accountService.AddBuyer(buyerDto));
         }
 
         [HttpPost("editAdministrator")]
-        public IActionResult EditAdmin(AdministratorDto administratorDto)
+        public IActionResult EditAdmin([FromBody]AdministratorDto administratorDto)
         {
-            return Ok(EditAdmin(administratorDto));
+            return Ok(_accountService.EditAdmin(administratorDto));
         }
 
         [HttpPost("editSeller")]
-        public IActionResult EditSeller(SellerDto sellerDto)
+        public IActionResult EditSeller([FromBody]SellerDto sellerDto)
         {
-            return Ok(EditSeller(sellerDto));
+            return Ok(_accountService.EditSeller(sellerDto));
         }
 
         [HttpPost("editBuyer")]
-        public IActionResult EditBuyer(BuyerDto buyerDto)
+        public IActionResult EditBuyer([FromBody]BuyerDto buyerDto)
         {
-            return Ok(EditBuyer(buyerDto));
+            return Ok(_accountService.EditBuyer(buyerDto));
         }
     }
 }

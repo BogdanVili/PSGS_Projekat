@@ -93,7 +93,7 @@ a:-webkit-any-link
   font-size: large;
 }
 
-.registerForm
+.registerForm, .editForm
 {
   font-size: large;
   text-align: center;
@@ -105,22 +105,28 @@ a:-webkit-any-link
   padding: 40px;
   border: 1px solid #f2f2f2;
   border-radius: 20px;
+  place-items: center;
 }
-.registerForm input
+.registerForm input, .editForm input
+{
+  font-size: large; 
+}
+
+.registerForm button, .editForm button
+{
+  height: 60px;
+  width: 200px;
+}
+
+.registerForm select, .editForm select
 {
   text-align: center;
   font-size: large;
 }
 
-.registerForm button
+.registerForm img, .editForm img
 {
-  height: 50px;
-}
-
-.registerForm select
-{
-  text-align: center;
-  font-size: large;
+  place-items: center;
 }
 
 .productBuyerPreview, 

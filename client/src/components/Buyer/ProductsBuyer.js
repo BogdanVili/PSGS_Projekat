@@ -1,12 +1,18 @@
-import {useState} from 'react';
-import image from '../../test_img/image1.jpg'
+import {useState, useEffect} from 'react';
+import { GetAllProducts } from '../../services/ProductService';
 
 const ProductsBuyer = () => {
-    const [products, setProducts] = useState([
-        {id: 1, name: 'product1', price: 100, amount: 5, description: 'desc1longer'},
-        {id: 2, name: 'product2', price: 100, amount: 5, description: 'desc2'},
-        {id: 3, name: 'product3', price: 100, amount: 5, description: 'desc3'},
-    ])
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        GetAllProducts()
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+      }, []);
 
     return (  
         <div className="productsBuyerShow">
@@ -25,7 +31,7 @@ const ProductsBuyer = () => {
                     <p>{product.price}</p>
                     <p>{product.amount}</p>
                     <p>{product.description}</p>
-                    <img src={image} alt='img' height={100} width={100}></img>
+                    <img src={product.image} alt='img' height={100} width={100}></img>
                     <input type='number' placeholder='amount'></input>
                     <button>Buy</button>
                 </div>

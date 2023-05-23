@@ -28,6 +28,8 @@ namespace server
             });
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             //registracija db contexta u kontejneru zavisnosti, njegov zivotni vek je Scoped
             services.AddDbContext<StorePSGSDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StorePSGSDatabase")));
@@ -53,6 +55,7 @@ namespace server
 
             app.UseCors(corsPolicyBuilder =>
             corsPolicyBuilder.WithOrigins("http://localhost:3000")
+            .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
 

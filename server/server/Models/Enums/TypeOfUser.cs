@@ -3,7 +3,7 @@
     public enum TypeOfUser
     {
         ADMIN,
-        BUYER,
-        SELLER
+        SELLER,
+        BUYER
     }
 }

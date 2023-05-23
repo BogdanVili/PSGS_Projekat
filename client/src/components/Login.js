@@ -1,6 +1,6 @@
 import {useContext, useState} from "react"
 import {redirect, useNavigate} from 'react-router-dom'
-import {GetUserAccount, LoggedInUseStateContext} from '../services/AccountService'
+import {GetUserAccount, GetUserType} from '../services/AccountService'
 import LoginDto from "../dto/LoginDto"
 import eventBus from "../services/EventBus"
 
@@ -11,23 +11,35 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const loginData = new LoginDto(username, password);
 
-    const LoginClick = (e) => 
+    const LoginClick = (event) => 
     {
-        e.preventDefault();
+        event.preventDefault();
         GetUserAccount(loginData)
                     .then(data => {
+                        console.log(data);
                         localStorage.setItem("userData", JSON.stringify(data));
                         localStorage.setItem("userType", JSON.stringify(data.type));
                         eventBus.emit('loggedInChange', true);
                         eventBus.emit('userTypeChange', JSON.stringify(data.type));
+                        
+                        if(data.type === GetUserType("ADMIN"))
+                        {
+                            navigate('/approveSellers');
+                        }
 
-                        navigate('/register');
+                        if(data.type === GetUserType("SELLER"))
+                        {
+                            navigate('/productsSeller');
+                        }
+
+                        if(data.type === GetUserType("BUYER"))
+                        {
+                            navigate('/productsBuyer');
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
-
-        
     }
 
     return ( 
@@ -36,14 +48,14 @@ const Login = () => {
             <input type="text" 
                    required
                    value={username}
-                   onChange={(e) => setUsername(e.target.value)}
+                   onChange={(event) => setUsername(event.target.value)}
             />
             <br/>
             <label>Password:</label>
             <input type="password" 
                    required
                    value={password}
-                   onChange={(e) => setPassword(e.target.value)}
+                   onChange={(event) => setPassword(event.target.value)}
             />
             <br/>
             <br/>

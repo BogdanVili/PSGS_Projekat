@@ -8,8 +8,9 @@ namespace server.Interfaces
         BuyerDto AddBuyer(BuyerDto buyerDto);
         SellerDto AddSeller(SellerDto sellerDto);
         AdministratorDto EditAdmin(AdministratorDto administratorDto);
-        BuyerDto EditBuyer(BuyerDto buyerDto);
         SellerDto EditSeller(SellerDto sellerDto);
+        BuyerDto EditBuyer(BuyerDto buyerDto);
+
         object GetUser(string username, string password);
     }
 }

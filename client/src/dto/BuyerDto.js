@@ -1,5 +1,5 @@
 export default class BuyerDto{
-    constructor(id, username, password, email, firstAndLastName, dateOfBirth, address, type)
+    constructor(id, username, password, email, firstAndLastName, dateOfBirth, address, type, image)
     {
         this.Id = id;
         this.Username = username;
@@ -9,5 +9,6 @@ export default class BuyerDto{
         this.DateOfBirth = dateOfBirth;
         this.Address = address;
         this.Type = type;
+        this.Image = image;
     }
 }

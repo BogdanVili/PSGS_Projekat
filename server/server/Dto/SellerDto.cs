@@ -1,4 +1,5 @@
-﻿using server.Models.Enums;
+﻿using server.Models;
+using server.Models.Enums;
 
 namespace server.Dto
 {
@@ -12,6 +13,7 @@ namespace server.Dto
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
         public TypeOfUser Type { get; set; }
+        public string Image { get; set; }
         public bool? Approval { get; set; }
     }
 }

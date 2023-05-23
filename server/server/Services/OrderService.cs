@@ -78,7 +78,7 @@ namespace server.Services
 
         public void UpdateProductAmount(Order order, bool subtractingAmount = false, bool addingAmount = false)
         {
-            if(subtractingAmount)
+            if (subtractingAmount)
             {
                 foreach (Product productFromOrder in order.Products)
                 {
@@ -88,9 +88,9 @@ namespace server.Services
 
                     _dbContext.SaveChanges();
                 }
-            }   
-            
-            if(addingAmount)
+            }
+
+            if (addingAmount)
             {
                 foreach (Product productFromOrder in order.Products)
                 {

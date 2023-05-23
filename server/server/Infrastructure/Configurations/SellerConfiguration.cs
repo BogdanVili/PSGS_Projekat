@@ -17,8 +17,6 @@ namespace server.Infrastructure.Configurations
             builder.Property(x => x.FirstAndLastName).HasMaxLength(50);
 
             builder.Property(x => x.Address).HasMaxLength(50);
-
-
         }
     }
 }
