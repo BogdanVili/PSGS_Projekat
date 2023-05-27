@@ -144,6 +144,14 @@ namespace server.Migrations
                     b.Property<long>("BuyerId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DeliveryTime")
                         .HasColumnType("datetime2");
 

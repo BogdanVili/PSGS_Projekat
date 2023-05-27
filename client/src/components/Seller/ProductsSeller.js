@@ -11,7 +11,6 @@ const ProductsSeller = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        console.log(userData.id);
         GetSellerProducts(userData.id)
             .then(data => {
                 setProducts(data);
@@ -22,7 +21,7 @@ const ProductsSeller = () => {
       }, []);
 
     const HandleUpdate = (product) => {
-        navigate('/editProduct', { state: product });
+        navigate('/edit-product', { state: product });
     };
 
     return (  

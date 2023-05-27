@@ -1,11 +1,51 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import { ApproveSeller, GetSellers } from '../../services/AccountService';
 
 const ApproveSellers = () => {
-    const [sellers, setSellers] = useState([
-        {id: 1, username: 'username1', email: 'mail1@mail.com', approved: null},
-        {id: 2, username: 'verylongusername', email: 'mail2@mail.com', approved: true},
-        {id: 3, username: 'username3', email: 'mail3@mail.com', approved: false},
-    ])
+    const [sellers, setSellers] = useState([]);
+
+    useEffect(() => {
+        GetSellers()
+            .then(data => {
+                setSellers(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+      }, []);
+
+    const handleApprove = (sellerId) => {
+        ApproveSeller(sellerId, true)
+        .then(data => {
+            console.log(data.id);
+            console.log(data.approval);
+            const updatedSellers = sellers.map(seller => {
+                if (seller.id === data.id) {
+                  return { ...seller, approval: data.approval };
+                }
+                return seller;
+              });
+            setSellers(updatedSellers);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    const handleDeny = (sellerId) => {
+        ApproveSeller(sellerId, false);
+    }
+
+    const disableButtons = (approval) => {
+        if(approval === null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     return ( 
         <div className="approveSellersShow">
@@ -17,12 +57,12 @@ const ApproveSellers = () => {
                 <p></p>
             </div>
             {sellers.map((seller) => (
-                <div className="approveSellerPreview">
+                <div className="approveSellerPreview" key={seller.id}>
                     <p>{seller.username}</p>
                     <p>{seller.email}</p>
-                    <p>{seller.approved !== null ? JSON.stringify(seller.approved) : null}</p>
-                    <button className='approveButton'>Approve</button>
-                    <button className='denyButton'>Deny</button>
+                    <p>{seller.approved !== null ? JSON.stringify(seller.approval) : null}</p>
+                    <button className='approveButton' onClick={() => handleApprove(seller.id)} disabled={disableButtons(seller.approval)}>Approve</button>
+                    <button className='denyButton' onClick={() => handleDeny(seller.id)} disabled={disableButtons(seller.approval)}>Deny</button>
                 </div>
             ))}
         </div>

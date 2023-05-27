@@ -22,6 +22,7 @@ const EditProduct = () => {
     const location = useLocation();
     const product = location.state;
 
+    const [id, setId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
     const [amount, setAmount] = useState(product.amount);
@@ -42,10 +43,10 @@ const EditProduct = () => {
         }
     };
 
-    const AddProductClick = (event) => {
+    const EditProductClick = (event) => {
         event.preventDefault();
 
-        const productDto = new ProductDto(0,
+        const productDto = new ProductDto(id,
                                           name,
                                           price,
                                           amount,
@@ -55,7 +56,7 @@ const EditProduct = () => {
 
         EditProductRequest(productDto)
         .then(data => {            
-            navigate('/productsSeller');
+            navigate('/products-seller');
         })
         .catch(error => {
             console.error('Error:', error);
@@ -63,7 +64,7 @@ const EditProduct = () => {
     }
 
     return ( 
-        <form className="addProductForm" onSubmit={AddProductClick}>
+        <form className="editProductForm" onSubmit={EditProductClick}>
             <label>Name:</label>
             <input type="text"
                    required
@@ -89,10 +90,10 @@ const EditProduct = () => {
                    onChange={(event) => setDescription(event.target.value)}></input>
             <br/>
             <label>Image:</label>
-            <input type="file" required accept="image/png, image/jpg, image/jpeg" onChange={HandleImageUpload}></input>
+            <input type="file" accept="image/png, image/jpg, image/jpeg" onChange={HandleImageUpload}></input>
             {imagePreview && <img src={imagePreview} alt='imgPreview' height={100} width={100}></img>}
             <br/>
-            <button>Add</button>
+            <button>Edit</button>
         </form>
      );
 }

@@ -21,34 +21,46 @@ namespace server.Controllers
             return Ok(_accountService.GetUser(login.Username, login.Password));
         }
 
-        [HttpPost("registerSeller")]
+        [HttpPost("register-seller")]
         public IActionResult Register([FromBody]SellerDto sellerDto)
         {
             return Ok(_accountService.AddSeller(sellerDto));
         }
 
-        [HttpPost("registerBuyer")]
+        [HttpPost("register-buyer")]
         public IActionResult Register([FromBody]BuyerDto buyerDto)
         {
             return Ok(_accountService.AddBuyer(buyerDto));
         }
 
-        [HttpPost("editAdministrator")]
+        [HttpPost("edit-administrator")]
         public IActionResult EditAdmin([FromBody]AdministratorDto administratorDto)
         {
             return Ok(_accountService.EditAdmin(administratorDto));
         }
 
-        [HttpPost("editSeller")]
+        [HttpPost("edit-seller")]
         public IActionResult EditSeller([FromBody]SellerDto sellerDto)
         {
             return Ok(_accountService.EditSeller(sellerDto));
         }
 
-        [HttpPost("editBuyer")]
+        [HttpPost("edit-buyer")]
         public IActionResult EditBuyer([FromBody]BuyerDto buyerDto)
         {
             return Ok(_accountService.EditBuyer(buyerDto));
+        }
+
+        [HttpPost("approve-seller/{sellerId}")]
+        public IActionResult ApproveSeller(long sellerId, [FromBody]bool approval)
+        {
+            return Ok(_accountService.ApproveSeller(sellerId, approval));
+        }
+
+        [HttpGet("get-sellers")]
+        public IActionResult GetSellers()
+        {
+            return Ok(_accountService.GetSellers());
         }
     }
 }

@@ -8,11 +8,11 @@ namespace server.Mapping
     {
         public MappingProfile() 
         {
-            CreateMap<Administrator, AdministratorDto>().ReverseMap(); ;
-            CreateMap<Seller, SellerDto>().ReverseMap(); ;
-            CreateMap<Buyer, BuyerDto>().ReverseMap(); ;
-            CreateMap<Product, ProductDto>().ReverseMap(); ;
-            CreateMap<Order, OrderDto>().ReverseMap(); ;
+            CreateMap<Administrator, AdministratorDto>().ReverseMap();
+            CreateMap<Seller, SellerDto>().ReverseMap();
+            CreateMap<Buyer, BuyerDto>().ReverseMap();
+            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
         }
     }
 }

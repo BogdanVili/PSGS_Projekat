@@ -16,31 +16,31 @@ namespace server.Controllers
             _productService = productService;
         }
 
-        [HttpGet("getAllProducts")]
+        [HttpGet("get-all-products")]
         public IActionResult GetAllProducts()
         {
             return Ok(_productService.GetAllProducts());
         }
 
-        [HttpPost("getSellerProducts")]
+        [HttpPost("get-seller-products")]
         public IActionResult GetSellerProducts([FromBody]long sellerId)
         {
             return Ok(_productService.GetSellerProducts(sellerId));
         }
 
-        [HttpPost("addProduct")]
+        [HttpPost("add-product")]
         public IActionResult AddProduct([FromBody]ProductDto productDto) 
         {
             return Ok(_productService.AddProduct(productDto));
         }
 
-        [HttpPost("editProduct")]
+        [HttpPost("edit-product")]
         public IActionResult EditProduct([FromBody]ProductDto productDto)
         {
             return Ok(_productService.EditProduct(productDto));
         }
 
-        [HttpPost("deleteProduct/{id}")]
+        [HttpPost("delete-product/{id}")]
         public IActionResult DeleteProduct(long id, [FromBody]long sellerId) 
         {
             _productService.DeleteProduct(id, sellerId);

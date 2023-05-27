@@ -44,7 +44,7 @@ const Register = () => {
                             eventBus.emit('loggedInChange', true);
                             eventBus.emit('userTypeChange', JSON.stringify(data.type));
                             
-                            navigate('/productsSeller');
+                            navigate('/products-seller');
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -61,7 +61,7 @@ const Register = () => {
                     eventBus.emit('loggedInChange', true);
                     eventBus.emit('userTypeChange', JSON.stringify(data.type));
 
-                    navigate('/productsBuyer');
+                    navigate('/products-buyer');
                 })
                 .catch(error => {
                     console.error('Error:', error);

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate} from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -13,9 +13,11 @@ import Unauthorized from './components/Unauthorized';
 import { useState, useEffect } from 'react';
 import eventBus from './services/EventBus';
 import EditProduct from './components/Seller/EditProduct';
+import ApprovalPage from './components/Seller/Approval';
 
 
 function App() {
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(LoggedIn());
 
   const [adminLoggedIn, setAdminLoggedIn] = useState(UserTypeIsSame("ADMIN"));
@@ -31,15 +33,21 @@ function App() {
       if(UserTypeIsSame("ADMIN"))
       {
         setAdminLoggedIn(true);
+        setSellerLoggedIn(false);
+        setBuyerLoggedIn(false);
       }
 
       if(UserTypeIsSame("SELLER"))
       {
+        setAdminLoggedIn(false);
         setSellerLoggedIn(true);
+        setBuyerLoggedIn(false);
       }
 
       if(UserTypeIsSame("BUYER"))
       {
+        setAdminLoggedIn(false);
+        setSellerLoggedIn(false);
         setBuyerLoggedIn(true);
       }
     };
@@ -53,40 +61,60 @@ function App() {
     };
   }, []);
 
+  const getSellerElement = (element) => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+  
+    if (!sellerLoggedIn || userData === null) {
+      return <Unauthorized />;
+    }
+  
+    if (userData.approval !== null && userData.approval === true) {
+      return element;
+    } else {
+      return <ApprovalPage />;
+    }
+  };
+
+  const getRootElement = () => {
+    if(!loggedIn)
+    {
+      return <Login/>;
+    }
+
+    if(UserTypeIsSame("ADMIN"))
+    {
+      return <ApproveSellers/>;
+    }
+
+    if(UserTypeIsSame("SELLER"))
+    {
+      return getSellerElement(<ProductsSeller />);
+    }
+
+    if(UserTypeIsSame("BUYER"))
+    {
+      return <ProductsBuyer/>;
+    }
+  }
+
   return (  
       <div className="App">
         <Navbar/>
         <div className="app-content">
           <Routes>
-            <Route exact path="/" element={LoggedIn() ? <Login/> : () => {
-              if(UserTypeIsSame("ADMIN"))
-              {
-                <ApproveSellers/>
-              }
-
-              if(UserTypeIsSame("SELLER"))
-              {
-                <ProductsSeller/>
-              }
-
-              if(UserTypeIsSame("BUYER"))
-              {
-                <ProductsBuyer/>
-              }
-            }}/>
+            <Route exact path="/" element={getRootElement()}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
 
-            <Route path="/editProfile" element={loggedIn ? <EditProfile/> : <Unauthorized/>}/>
+            <Route path="/edit-profile" element={loggedIn ? <EditProfile/> : <Unauthorized/>}/>
 
-            <Route path="/approveSellers" element={adminLoggedIn ? <ApproveSellers/> : <Unauthorized/>}/>
-            
+            <Route path="/approve-sellers" element={adminLoggedIn ? <ApproveSellers/> : <Unauthorized/>}/>
 
-            <Route path="/productsSeller" element={sellerLoggedIn ? <ProductsSeller/> : <Unauthorized/>}/>
-            <Route path="/addProduct" element={sellerLoggedIn ? <AddProduct/> : <Unauthorized/>} />
-            <Route path="/editProduct" element={sellerLoggedIn ? <EditProduct/> : <Unauthorized/>} />
+            <Route path="/products-seller" element={getSellerElement(<ProductsSeller />)} />
+            <Route path="/add-product" element={getSellerElement(<AddProduct/>)}/>
+            <Route path="/edit-product" element={getSellerElement(<EditProduct/>)}/>
 
-            <Route path="/productsBuyer" element={buyerLoggedIn ? <ProductsBuyer/> : <Unauthorized/>} />
+            <Route path="/products-buyer" element={buyerLoggedIn ? <ProductsBuyer/> : <Unauthorized/>} />
             <Route path="/cart" element={buyerLoggedIn ? <Cart/> : <Unauthorized/>}/>
 
           </Routes>

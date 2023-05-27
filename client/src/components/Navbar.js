@@ -55,15 +55,15 @@ const Navbar = () => {
         <nav className="navbar">
             <h1>Shoppingholic</h1>
             <div className="links">
-                { UserTypeIsSame("ADMIN") ? <Link to="/approveSellers">Approve Sellers</Link> : null } 
+                { UserTypeIsSame("ADMIN") ? <Link to="/approve-sellers">Approve Sellers</Link> : null } 
 
-                { UserTypeIsSame("SELLER") ? <Link to="/productsSeller">My Products</Link> : null }
-                { UserTypeIsSame("SELLER") ? <Link to="/addProduct">Add Product</Link> : null }
+                { UserTypeIsSame("SELLER") ? <Link to="/products-seller">My Products</Link> : null }
+                { UserTypeIsSame("SELLER") ? <Link to="/add-product">Add Product</Link> : null }
 
-                { UserTypeIsSame("BUYER") ? <Link to="/productsBuyer">Products Buyer</Link> : null }
+                { UserTypeIsSame("BUYER") ? <Link to="/products-buyer">Products Buyer</Link> : null }
                 { UserTypeIsSame("BUYER") ? <Link to="/cart">Cart</Link> : null }
 
-                <Link to="/editProfile">Edit Profile</Link>
+                <Link to="/edit-profile">Edit Profile</Link>
                 { loggedIn === true ? <a href="#" onClick={() => LogOut()}>Log Out</a> : null }
             </div>
         </nav>

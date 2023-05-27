@@ -52,7 +52,7 @@ const EditProfile = () => {
             .then(data => {
                 localStorage.setItem("userData", JSON.stringify(data));
 
-                navigate('/approveSellers');
+                navigate('/approve-sellers');
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -76,7 +76,7 @@ const EditProfile = () => {
             .then(data => {
                 localStorage.setItem("userData", JSON.stringify(data));
 
-                navigate('/productsSeller');
+                navigate('/products-seller');
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -99,7 +99,7 @@ const EditProfile = () => {
             .then(data => {
                 localStorage.setItem("userData", JSON.stringify(data));
 
-                navigate('/productsBuyer');
+                navigate('/products-buyer');
             })
             .catch(error => {
                 console.error('Error:', error);

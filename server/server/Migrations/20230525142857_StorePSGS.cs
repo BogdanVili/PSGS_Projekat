@@ -79,6 +79,8 @@ namespace server.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DeliveryTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BuyerId = table.Column<long>(type: "bigint", nullable: false),
                     SellerId = table.Column<long>(type: "bigint", nullable: true)
                 },

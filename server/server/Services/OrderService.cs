@@ -20,6 +20,12 @@ namespace server.Services
         public OrderDto AddOrder(OrderDto orderDto)
         {
             Order order = _mapper.Map<Order>(orderDto);
+
+            foreach(ProductDto productDto in orderDto.ProductsDto)
+            {
+                order.Products.Add(_mapper.Map<Product>(productDto));
+            }
+
             _dbContext.Orders.Add(order);
 
             UpdateProductAmount(order, subtractingAmount: true);

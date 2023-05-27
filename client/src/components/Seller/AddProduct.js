@@ -52,7 +52,7 @@ const AddProduct = () => {
 
         AddProductRequest(productDto)
         .then(data => {            
-            navigate('/productsSeller');
+            navigate('/products-seller');
         })
         .catch(error => {
             console.error('Error:', error);

@@ -10,6 +10,8 @@ namespace server.Interfaces
         AdministratorDto EditAdmin(AdministratorDto administratorDto);
         SellerDto EditSeller(SellerDto sellerDto);
         BuyerDto EditBuyer(BuyerDto buyerDto);
+        public SellerDto ApproveSeller(long sellerId, bool approval);
+        public List<SellerDto> GetSellers();
 
         object GetUser(string username, string password);
     }

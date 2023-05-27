@@ -19,7 +19,12 @@ namespace server.Services
 
         public List<ProductDto> GetAllProducts()
         {
-            return _mapper.Map<List<ProductDto>>(_dbContext.Products.ToList());
+            List<ProductDto> productsDto = _mapper.Map<List<ProductDto>>(_dbContext.Products.ToList());
+            foreach (Product product in _dbContext.Products.ToList())
+            {
+                productsDto.Find(pdto => pdto.Id == product.Id).SellerDto = _mapper.Map<SellerDto>(_dbContext.Sellers.Find(product.SellerId));
+            }
+            return productsDto;
         }
 
         public List<ProductDto> GetSellerProducts(long sellerId)

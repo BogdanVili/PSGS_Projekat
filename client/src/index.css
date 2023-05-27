@@ -146,6 +146,16 @@ a:-webkit-any-link
   justify-content: center;
 }
 
+.productBuyerPreview input, 
+.productSellerPreview input, 
+.approveSellerPreview input, 
+.productCartPreview input
+{
+  text-align: center;
+  font-size: large;
+  width: 15%;
+}
+
 .productBuyerPreview:hover, 
 .productSellerPreview:hover, 
 .approveSellerPreview:hover, 
@@ -156,7 +166,6 @@ a:-webkit-any-link
 
 .productBuyerPreview p, h2, img
 {
-  display: table-cell;
   flex: 1;
 }
 
@@ -167,7 +176,6 @@ a:-webkit-any-link
 
 .productSellerPreview p, h2, img
 {
-  display: table-cell;
   flex: 1;
 }
 
@@ -178,7 +186,6 @@ a:-webkit-any-link
 
 .productCartPreview p, h2, img
 {
-  display: table-cell;
   flex: 1;
 }
 
@@ -215,5 +222,26 @@ a:-webkit-any-link
   background-color: #C62827;
 }
 
+.addProductForm, .editProductForm
+{
+  font-size: large;
+  text-align: center;
+  display: grid;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 5%;
+  padding: 40px;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
+}
 
+.addProductForm button, .editProductForm button
+{
+  height: 50px;
+}
 
+.addProductForm input, .editProductForm input
+{
+  text-align: center;
+  font-size: large;
+}

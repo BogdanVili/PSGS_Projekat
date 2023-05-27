@@ -24,17 +24,17 @@ const Login = () => {
                         
                         if(data.type === GetUserType("ADMIN"))
                         {
-                            navigate('/approveSellers');
+                            navigate('/approve-sellers');
                         }
 
                         if(data.type === GetUserType("SELLER"))
                         {
-                            navigate('/productsSeller');
+                            navigate('/products-seller');
                         }
 
                         if(data.type === GetUserType("BUYER"))
                         {
-                            navigate('/productsBuyer');
+                            navigate('/products-buyer');
                         }
                     })
                     .catch(error => {

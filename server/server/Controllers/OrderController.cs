@@ -15,32 +15,32 @@ namespace server.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost("addOrder")]
+        [HttpPost("add-order")]
         public IActionResult AddOrder([FromBody]OrderDto orderDto)
         {
             return Ok(_orderService.AddOrder(orderDto));
         }
 
-        [HttpPost("deleteOrder/{id}")]
+        [HttpPost("delete-order/{id}")]
         public IActionResult DeleteOrder(long id)
         {
             _orderService.DeleteOrder(id);
             return Ok();
         }
 
-        [HttpPost("getAdminOrders")]
+        [HttpPost("get-admin-orders")]
         public IActionResult GetAdminOrders([FromBody]long adminId)
         {
             return Ok(_orderService.GetAdminOrders(adminId));
         }
 
-        [HttpPost("getSellerOrders")]
+        [HttpPost("get-seller-orders")]
         public IActionResult GetSellerOrders([FromBody]long sellerId)
         {
             return Ok(_orderService.GetSellerOrders(sellerId));
         }
 
-        [HttpPost("getBuyerOrders")]
+        [HttpPost("get-buyer-orders")]
         public IActionResult GetBuyerOrders([FromBody]long buyerId)
         {
             return Ok(_orderService.GetBuyerOrders(buyerId));

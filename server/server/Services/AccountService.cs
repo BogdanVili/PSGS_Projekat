@@ -143,34 +143,5 @@ namespace server.Services
 
             return null;
         }
-
-        private string ConvertImageToBase64(IFormFile image)
-        {
-            string base64String = "";
-
-            if (image != null && image.Length > 0)
-            {
-                byte[] fileBytes;
-                using (var memoryStream = new MemoryStream())
-                {
-                    image.CopyTo(memoryStream);
-                    fileBytes = memoryStream.ToArray();
-                }
-
-                base64String = Convert.ToBase64String(fileBytes);
-            }
-
-            return base64String;
-        }
-
-        public IFormFile ConvertFromBase64(string base64String, string fileName)
-        {
-            byte[] fileBytes = Convert.FromBase64String(base64String);
-            MemoryStream memoryStream = new MemoryStream(fileBytes);
-
-            IFormFile formFile = new FormFile(memoryStream, 0, fileBytes.Length, null, fileName);
-
-            return formFile;
-        }
     }
 }
