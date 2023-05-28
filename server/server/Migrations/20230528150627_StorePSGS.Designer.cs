@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(StorePSGSDbContext))]
-    [Migration("20230525142857_StorePSGS")]
+    [Migration("20230528150627_StorePSGS")]
     partial class StorePSGS
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.Property<long>("OrdersId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("OrdersId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("OrderProduct");
-                });
 
             modelBuilder.Entity("server.Models.Administrator", b =>
                 {
@@ -170,6 +155,24 @@ namespace server.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("server.Models.OrderProductAmount", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SelectedAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProductAmounts");
+                });
+
             modelBuilder.Entity("server.Models.Product", b =>
                 {
                     b.Property<long>("Id")
@@ -259,21 +262,6 @@ namespace server.Migrations
                     b.ToTable("Sellers");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
-                {
-                    b.HasOne("server.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("server.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("server.Models.Order", b =>
                 {
                     b.HasOne("server.Models.Buyer", "Buyer")
@@ -287,6 +275,25 @@ namespace server.Migrations
                         .HasForeignKey("SellerId");
 
                     b.Navigation("Buyer");
+                });
+
+            modelBuilder.Entity("server.Models.OrderProductAmount", b =>
+                {
+                    b.HasOne("server.Models.Order", "Order")
+                        .WithMany("OrderProductAmounts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("server.Models.Product", "Product")
+                        .WithMany("OrderProductAmounts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("server.Models.Product", b =>
@@ -303,6 +310,16 @@ namespace server.Migrations
             modelBuilder.Entity("server.Models.Buyer", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("server.Models.Order", b =>
+                {
+                    b.Navigation("OrderProductAmounts");
+                });
+
+            modelBuilder.Entity("server.Models.Product", b =>
+                {
+                    b.Navigation("OrderProductAmounts");
                 });
 
             modelBuilder.Entity("server.Models.Seller", b =>

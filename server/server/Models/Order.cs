@@ -8,6 +8,6 @@
         public string DeliveryDescription { get; set; }
         public long BuyerId { get; set; }
         public Buyer Buyer { get; set; }
-        public List<Product> Products { get; set; }
+        public List<OrderProductAmount> OrderProductAmounts { get; set; }
     }
 }

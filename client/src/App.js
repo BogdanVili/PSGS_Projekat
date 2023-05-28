@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react';
 import eventBus from './services/EventBus';
 import EditProduct from './components/Seller/EditProduct';
 import ApprovalPage from './components/Seller/Approval';
+import OrdersSeller from './components/Seller/OrdersSeller';
 
 
 function App() {
@@ -113,6 +114,7 @@ function App() {
             <Route path="/products-seller" element={getSellerElement(<ProductsSeller />)} />
             <Route path="/add-product" element={getSellerElement(<AddProduct/>)}/>
             <Route path="/edit-product" element={getSellerElement(<EditProduct/>)}/>
+            <Route path="/orders-seller" element={getSellerElement(<OrdersSeller/>)}/>
 
             <Route path="/products-buyer" element={buyerLoggedIn ? <ProductsBuyer/> : <Unauthorized/>} />
             <Route path="/cart" element={buyerLoggedIn ? <Cart/> : <Unauthorized/>}/>

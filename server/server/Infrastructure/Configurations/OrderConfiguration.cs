@@ -12,9 +12,6 @@ namespace server.Infrastructure.Configurations
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
-            builder.HasMany(x => x.Products)
-                   .WithMany(x => x.Orders);
-
             builder.Property(x => x.BuyerId).IsRequired();
 
             builder.HasOne(x => x.Buyer)

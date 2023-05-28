@@ -110,6 +110,7 @@ a:-webkit-any-link
 .registerForm input, .editForm input
 {
   font-size: large; 
+  text-align: center;
 }
 
 .registerForm button, .editForm button
@@ -134,7 +135,8 @@ a:-webkit-any-link
 .approveSellerPreview, 
 .productCartPreview
 {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   margin-left: 20%;
   margin-right: 20%;
   margin-top: 2%;
@@ -176,7 +178,9 @@ a:-webkit-any-link
 
 .productSellerPreview p, h2, img
 {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .productSellerPreview img
@@ -245,3 +249,40 @@ a:-webkit-any-link
   text-align: center;
   font-size: large;
 }
+
+.orderSellerPreview
+{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 2%;
+  padding: 1%;
+  transition: 200ms;
+  border-radius: 20px;
+  border: 1px solid #f2f2f2;
+  align-items: center;
+  justify-content: center;
+}
+
+.orderSellerPreview p
+{
+  flex: 1;
+}
+
+.orderProductSellerPreview
+{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2%;
+  padding: 1%;
+  transition: 200ms;
+  border-radius: 20px;
+  border: 1px solid #f2f2f2;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 3;
+}
+

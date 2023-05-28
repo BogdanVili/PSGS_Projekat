@@ -59,6 +59,7 @@ const Navbar = () => {
 
                 { UserTypeIsSame("SELLER") ? <Link to="/products-seller">My Products</Link> : null }
                 { UserTypeIsSame("SELLER") ? <Link to="/add-product">Add Product</Link> : null }
+                { UserTypeIsSame("SELLER") ? <Link to="/orders-seller">Orders Seller</Link> : null }
 
                 { UserTypeIsSame("BUYER") ? <Link to="/products-buyer">Products Buyer</Link> : null }
                 { UserTypeIsSame("BUYER") ? <Link to="/cart">Cart</Link> : null }

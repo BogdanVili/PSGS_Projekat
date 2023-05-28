@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using server.Dto;
 using server.Infrastructure;
 using server.Interfaces;
@@ -19,17 +20,14 @@ namespace server.Services
 
         public List<ProductDto> GetAllProducts()
         {
-            List<ProductDto> productsDto = _mapper.Map<List<ProductDto>>(_dbContext.Products.ToList());
-            foreach (Product product in _dbContext.Products.ToList())
-            {
-                productsDto.Find(pdto => pdto.Id == product.Id).SellerDto = _mapper.Map<SellerDto>(_dbContext.Sellers.Find(product.SellerId));
-            }
+            List<ProductDto> productsDto = _mapper.Map<List<ProductDto>>(_dbContext.Products.Include(p => p.Seller).ToList());
+
             return productsDto;
         }
 
         public List<ProductDto> GetSellerProducts(long sellerId)
         {
-            List<Product> products = _dbContext.Products.Where(p => p.SellerId == sellerId).ToList();
+            List<Product> products = _dbContext.Products.Include(p => p.Seller).Where(p => p.SellerId == sellerId).ToList();
 
             return _mapper.Map<List<ProductDto>>(products);
         }
@@ -37,9 +35,8 @@ namespace server.Services
         public ProductDto AddProduct(ProductDto productDto)
         {
             Product product = _mapper.Map<Product>(productDto);
-            product.SellerId = productDto.SellerDto.Id;
 
-            _dbContext.Products.Add(product);
+            _dbContext.Products.Attach(product);
 
             _dbContext.SaveChanges();
 

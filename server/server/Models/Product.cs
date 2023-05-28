@@ -10,6 +10,6 @@
         public string Image { get; set; }
         public long SellerId { get; set; }
         public Seller Seller { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<OrderProductAmount> OrderProductAmounts { get; set; }
     }
 }

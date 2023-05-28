@@ -7,6 +7,6 @@
         public string DeliveryAddress { get; set; }
         public string DeliveryDescription { get; set; }
         public BuyerDto BuyerDto { get; set; }
-        public List<ProductDto> ProductsDto { get; set; }
+        public List<OrderProductAmountDto> OrderProductAmountsDto { get; set; }
     }
 }
