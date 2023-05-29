@@ -12,6 +12,8 @@ const OrdersSeller = () => {
     orders.push(order1);
     orders.push(order2);
 
+    
+
     return ( 
         <div className="ordersSellerShow">
             <div className="orderSellerPreview">

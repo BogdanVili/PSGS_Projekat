@@ -1,11 +1,8 @@
 import {FetchDataGet, FetchDataPost} from './FetchData'
-import SellerDto from '../dto/SellerDto'
-import BuyerDto from '../dto/BuyerDto'
-
 
 export const GetUserAccount = (LoginDto) => 
 {
-    return FetchDataPost(`http://localhost:7168/account/login`, LoginDto);
+    return FetchDataPost('http://localhost:7168/account/login', LoginDto);
 }
 
 export const RegisterSeller = (SellerDto) => 

@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react';
 import { GetAllProducts } from '../../services/ProductService';
 import ProductDto from '../../dto/ProductDto';
 import OrderDto from '../../dto/OrderDto';
+import OrderProductAmountDto from '../../dto/OrderProductAmountDto';
 
 const ProductsBuyer = () => {
     const [products, setProducts] = useState([]);
@@ -51,24 +52,24 @@ const ProductsBuyer = () => {
             return;
         }
 
-        const productDto = new ProductDto(product.id, product.name, product.price, selectedAmount, product.description, product.image, product.sellerDto);
+        const productDto = new ProductDto(product.id, product.name, product.price, product.amount, product.description, product.image, product.sellerDto);
+        const orderProductAmountDto = new OrderProductAmountDto(productDto, selectedAmount);
+        let cartOPAs = [];
 
-        let cartProducts = [];
-
-        const cartProductsString = localStorage.getItem("cartProducts");
-        if(cartProductsString)
+        const cartOPAsString = localStorage.getItem("cartOPAs");
+        if(cartOPAsString)
         {
-            cartProducts = JSON.parse(cartProductsString);
+            cartOPAs = JSON.parse(cartOPAsString);
         }
 
-        cartProducts.push(productDto);
+        cartOPAs.push(orderProductAmountDto);
 
-        localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+        localStorage.setItem("cartOPAs", JSON.stringify(cartOPAs));
 
         let updatedCartProductIds = [];
 
-        cartProducts.forEach(product => {
-            updatedCartProductIds.push(product.Id);
+        cartOPAs.forEach(orderProductAmount => {
+            updatedCartProductIds.push(orderProductAmount.ProductDto.Id);
         });
         
         setCartProductIds(updatedCartProductIds);

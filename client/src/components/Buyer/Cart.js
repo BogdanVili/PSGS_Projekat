@@ -1,38 +1,47 @@
 import {useEffect, useState} from 'react';
 import OrderDto from '../../dto/OrderDto';
 import { useNavigate } from 'react-router-dom';
+import { AddOrderRequest } from '../../services/OrderService';
 
 const Cart = () => {
     const navigate = useNavigate();
     const [deliveryAddress, setDeliveryAddress] = useState('');
     const [deliveryDescription, setDeliveryDescription] = useState('');
 
-    const [products, setProducts] = useState([]);
+    const [orderProductAmounts, setOrderProductAmounts] = useState([]);
 
     useEffect(() => {
-        const productsString = localStorage.getItem('cartProducts');
+        const orderProductAmountsString = localStorage.getItem('cartOPAs');
         
-        if(productsString)
+        if(orderProductAmountsString)
         {
-            setProducts(JSON.parse(productsString));
+            setOrderProductAmounts(JSON.parse(orderProductAmountsString));
         }
       }, []);
 
     const OrderClick = () => {
         const userData = JSON.parse(localStorage.getItem("userData"));
-        const orderDto = new OrderDto(null, null, deliveryAddress, deliveryDescription, userData, products);
-        localStorage.removeItem('currentOrder');
-        localStorage.removeItem('cartProducts');
+        const orderDto = new OrderDto(null, null, deliveryAddress, deliveryDescription, userData, orderProductAmounts);
+        
+        AddOrderRequest(orderDto)            
+            .then(data => {
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        localStorage.removeItem('cartOPAs');
     }
 
     const deleteProductClick = (productId) => {
-        const updatedProductList = products.filter(({ Id }) => Id !== productId);
-        setProducts(updatedProductList);
-        localStorage.setItem('cartProducts', updatedProductList);
+        const updatedOrderProductAmountList = orderProductAmounts.filter(({ ProductDto }) => ProductDto.Id !== productId);
+        setOrderProductAmounts(updatedOrderProductAmountList);
+        localStorage.setItem('cartOPAs', updatedOrderProductAmountList);
     }
 
     
-    if(products.length === 0)
+    if(orderProductAmounts.length === 0)
     {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -46,19 +55,19 @@ const Cart = () => {
             <div className="productCartPreview">
                 <p>Name</p>
                 <p>Price</p>
-                <p>Amount</p>
+                <p>Selected Amount</p>
                 <p>Description</p>
                 <p>Image</p>
                 <p></p>
             </div>
-            {products.map((product) => (
-                <div className="productCartPreview" key={product.Id}>
-                    <h2>{product.Name}</h2>
-                    <p>{product.Price}</p>
-                    <p>{product.Amount}</p>
-                    <p>{product.Description}</p>
-                    <img src={product.Image} alt='img' height={100} width={100}></img>
-                    <button onClick={() => deleteProductClick(product.Id)}>Delete</button>
+            {orderProductAmounts.map((orderProductAmount) => (
+                <div className="productCartPreview" key={orderProductAmount.ProductDto.Id}>
+                    <h2>{orderProductAmount.ProductDto.Name}</h2>
+                    <p>{orderProductAmount.ProductDto.Price}</p>
+                    <p>{orderProductAmount.SelectedAmount}</p>
+                    <p>{orderProductAmount.ProductDto.Description}</p>
+                    <img src={orderProductAmount.ProductDto.Image} alt='img' height={100} width={100}></img>
+                    <button onClick={() => deleteProductClick(orderProductAmount.ProductDto.Id)}>Delete</button>
                 </div>
             ))}  
             <div className='productCartPreview'>

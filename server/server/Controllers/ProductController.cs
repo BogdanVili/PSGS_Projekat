@@ -40,10 +40,10 @@ namespace server.Controllers
             return Ok(_productService.EditProduct(productDto));
         }
 
-        [HttpPost("delete-product/{id}")]
-        public IActionResult DeleteProduct(long id, [FromBody]long sellerId) 
+        [HttpPost("delete-product/{productId}")]
+        public IActionResult DeleteProduct(long productId, [FromBody]long sellerId) 
         {
-            _productService.DeleteProduct(id, sellerId);
+            _productService.DeleteProduct(productId, sellerId);
             return Ok();
         }
     }

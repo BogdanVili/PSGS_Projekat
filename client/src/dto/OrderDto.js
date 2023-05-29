@@ -1,19 +1,19 @@
 export default class OrderDto{
-    constructor(id = null, deliveryTime = null, deliveryAddress = null, deliveryDescription = null, buyerDto = null, productsDto = null)
+    constructor(id = null, deliveryTime = null, deliveryAddress = null, deliveryDescription = null, buyerDto = null, orderProductAmountDto = null)
     {
         this.Id = id;
         this.DeliveryTime = deliveryTime;
         this.DeliveryAddress = deliveryAddress;
         this.DeliveryDescription = deliveryDescription;
         this.BuyerDto = buyerDto;
-        this.ProductsDto = productsDto;
+        this.OrderProductAmountDto = orderProductAmountDto;
     }
 
-    AddProduct(productDto) {
-        if (!this.ProductsDto) {
-            this.ProductsDto = [];
+    AddProduct(orderProductAmountDto) {
+        if (!this.OrderProductAmountDto) {
+            this.OrderProductAmountDto = [];
         }
         
-        this.ProductsDto.push(productDto);
+        this.OrderProductAmountDto.push(orderProductAmountDto);
     }
 }

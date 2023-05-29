@@ -25,7 +25,9 @@ namespace server.Services
 
             foreach(OrderProductAmountDto orderProductAmountDto in orderDto.OrderProductAmountsDto)
             {
-                _dbContext.OrderProductAmounts.Add(_mapper.Map<OrderProductAmount>(orderProductAmountDto));
+                OrderProductAmount _orderProductAmount = _mapper.Map<OrderProductAmount>(orderProductAmountDto);
+                _orderProductAmount.OrderId = order.Id;
+                _dbContext.OrderProductAmounts.Attach(_orderProductAmount);
             }
 
             _dbContext.Orders.Attach(order);
