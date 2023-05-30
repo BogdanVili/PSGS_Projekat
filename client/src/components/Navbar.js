@@ -56,6 +56,7 @@ const Navbar = () => {
             <h1>Shoppingholic</h1>
             <div className="links">
                 { UserTypeIsSame("ADMIN") ? <Link to="/approve-sellers">Approve Sellers</Link> : null } 
+                { UserTypeIsSame("ADMIN") ? <Link to="/orders-admin">All Orders</Link> : null}
 
                 { UserTypeIsSame("SELLER") ? <Link to="/products-seller">My Products</Link> : null }
                 { UserTypeIsSame("SELLER") ? <Link to="/add-product">Add Product</Link> : null }
@@ -63,6 +64,7 @@ const Navbar = () => {
 
                 { UserTypeIsSame("BUYER") ? <Link to="/products-buyer">Products Buyer</Link> : null }
                 { UserTypeIsSame("BUYER") ? <Link to="/cart">Cart</Link> : null }
+                { UserTypeIsSame("BUYER") ? <Link to="/orders-buyer">My Orders</Link> : null }
 
                 <Link to="/edit-profile">Edit Profile</Link>
                 { loggedIn === true ? <a href="#" onClick={() => LogOut()}>Log Out</a> : null }

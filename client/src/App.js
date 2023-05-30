@@ -15,6 +15,8 @@ import eventBus from './services/EventBus';
 import EditProduct from './components/Seller/EditProduct';
 import ApprovalPage from './components/Seller/Approval';
 import OrdersSeller from './components/Seller/OrdersSeller';
+import OrdersBuyer from './components/Buyer/OrdersBuyer';
+import OrdersAdmin from './components/Admin/OrdersAdmin'
 
 
 function App() {
@@ -110,15 +112,16 @@ function App() {
             <Route path="/edit-profile" element={loggedIn ? <EditProfile/> : <Unauthorized/>}/>
 
             <Route path="/approve-sellers" element={adminLoggedIn ? <ApproveSellers/> : <Unauthorized/>}/>
+            <Route path="/orders-admin" element={adminLoggedIn ? <OrdersAdmin/> : <Unauthorized/>}/>
 
             <Route path="/products-seller" element={getSellerElement(<ProductsSeller />)} />
             <Route path="/add-product" element={getSellerElement(<AddProduct/>)}/>
             <Route path="/edit-product" element={getSellerElement(<EditProduct/>)}/>
             <Route path="/orders-seller" element={getSellerElement(<OrdersSeller/>)}/>
 
-            <Route path="/products-buyer" element={buyerLoggedIn ? <ProductsBuyer/> : <Unauthorized/>} />
+            <Route path="/products-buyer" element={buyerLoggedIn ? <ProductsBuyer/> : <Unauthorized/>}/>
             <Route path="/cart" element={buyerLoggedIn ? <Cart/> : <Unauthorized/>}/>
-
+            <Route path="/orders-buyer" element={buyerLoggedIn ? <OrdersBuyer/> : <Unauthorized/>}/>
           </Routes>
         </div>
       </div>

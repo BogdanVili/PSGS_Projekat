@@ -14,7 +14,10 @@ namespace server.Mapping
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.SellerDto, act => act.MapFrom(src => src.Seller))
                 .ReverseMap();
-            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, OrderDto>()
+                .ForMember(dest => dest.BuyerDto, act => act.MapFrom(src => src.Buyer))
+                .ForMember(dest => dest.OrderProductAmountsDto, act => act.MapFrom(src => src.OrderProductAmounts))
+                .ReverseMap();
             CreateMap<OrderProductAmount, OrderProductAmountDto>()
                 .ForMember(dest => dest.ProductDto, act => act.MapFrom(src => src.Product))
                 .ReverseMap();

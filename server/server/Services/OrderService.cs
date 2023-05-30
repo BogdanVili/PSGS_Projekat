@@ -23,13 +23,6 @@ namespace server.Services
         {
             Order order = _mapper.Map<Order>(orderDto);
 
-            foreach(OrderProductAmountDto orderProductAmountDto in orderDto.OrderProductAmountsDto)
-            {
-                OrderProductAmount _orderProductAmount = _mapper.Map<OrderProductAmount>(orderProductAmountDto);
-                _orderProductAmount.OrderId = order.Id;
-                _dbContext.OrderProductAmounts.Attach(_orderProductAmount);
-            }
-
             _dbContext.Orders.Attach(order);
 
             _dbContext.SaveChanges();
@@ -58,36 +51,52 @@ namespace server.Services
 
         public List<OrderDto> GetAdminOrders(long adminId)
         {
-            return _mapper.Map<List<OrderDto>>(_dbContext.Orders.Include(o => o.Buyer).Include(o => o.OrderProductAmounts));
+            return _mapper.Map<List<OrderDto>>(_dbContext.Orders.Include(o => o.Buyer)
+                                                                .Include(o => o.OrderProductAmounts)
+                                                                    .ThenInclude(opa => opa.Product)
+                                                                    .ThenInclude(p => p.Seller)
+                                                                .ToList());
         }
 
         public List<OrderDto> GetSellerOrders(long sellerId)
         {
-            List<Product> sellerProducts = _dbContext.Products.Where(p => p.SellerId ==  sellerId).ToList();
-            List<OrderProductAmount> orderProductAmounts = new List<OrderProductAmount>();
+            List<OrderDto> ordersDto = _mapper.Map<List<OrderDto>>(_dbContext.Orders.Include(o => o.Buyer)
+                                                                .Include(o => o.OrderProductAmounts)
+                                                                    .ThenInclude(opa => opa.Product)
+                                                                    .ThenInclude(p => p.Seller)
+                                                                .Where(o => o.OrderProductAmounts.Any(opa => opa.Product.Seller.Id == sellerId))
+                                                                .ToList());
 
-            foreach(Product product in sellerProducts)
+            List<OrderProductAmountDto> opasToRemove = new List<OrderProductAmountDto>();
+
+            foreach (OrderDto orderDto in ordersDto)
             {
-                orderProductAmounts.Add(_dbContext.OrderProductAmounts.Where(opa => opa.ProductId == product.Id) as OrderProductAmount);
+                foreach(OrderProductAmountDto orderProductAmountDto in orderDto.OrderProductAmountsDto)
+                {
+                    if(orderProductAmountDto.ProductDto.SellerDto.Id != sellerId)
+                    {
+                        opasToRemove.Add(orderProductAmountDto);
+                    }
+                }
+
+                foreach(OrderProductAmountDto orderProductAmountDtoToRemove in opasToRemove)
+                {
+                    orderDto.OrderProductAmountsDto.Remove(orderProductAmountDtoToRemove);
+                }
+
+                opasToRemove.Clear();
             }
 
-            List<long> orderIds = orderProductAmounts.Select(opa => opa.OrderId).Distinct().ToList();
-
-            List<Order> returnOrders = _dbContext.Orders.Where(o => orderIds.Contains(o.Id)).ToList();
-
-            List<OrderDto> returnOrdersDto = _mapper.Map<List<OrderDto>>(returnOrders);
-
-            foreach(OrderProductAmount orderProductAmount in orderProductAmounts)
-            {
-                returnOrdersDto.Find(rodto => rodto.Id == orderProductAmount.OrderId).OrderProductAmountsDto.Add(_mapper.Map<OrderProductAmountDto>(orderProductAmount));
-            }
-
-            return returnOrdersDto;
+            return ordersDto;
         }
 
         public List<OrderDto> GetBuyerOrders(long buyerId)
         {
-            List<Order> orders = _dbContext.Orders.Include(o => o.Buyer).Include(o => o.OrderProductAmounts).Where(o => o.BuyerId == buyerId).ToList();
+            List<Order> orders = _dbContext.Orders.Include(o => o.Buyer)
+                                                  .Include(o => o.OrderProductAmounts)
+                                                    .ThenInclude(opa => opa.Product)
+                                                    .ThenInclude(p => p.Seller)
+                                                  .Where(o => o.BuyerId == buyerId).ToList();
 
             return _mapper.Map<List<OrderDto>>(orders);
         }
@@ -115,7 +124,6 @@ namespace server.Services
             }
 
             _dbContext.SaveChanges();
-
         }
     }
 }

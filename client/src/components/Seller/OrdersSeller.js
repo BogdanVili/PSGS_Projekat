@@ -1,42 +1,48 @@
 import OrderDto from '../../dto/OrderDto'
 import ProductDto from '../../dto/ProductDto';
-import image from "../../test_img/image1.jpg"
+import { GetSellerOrdersRequest } from '../../services/OrderService';
+import { useState, useEffect } from 'react';
 
 const OrdersSeller = () => {
-    const products = [];
-    products.push(new ProductDto(1, "product1", 10, 10, "description1", image, null));
-    products.push(new ProductDto(2, "product2", 10, 10, "description2", image, null));
-    const order1 = new OrderDto(1, new Date(1999, 1, 1), "Address 10", "description 1", null, products);
-    const order2 = new OrderDto(2, new Date(1998, 1, 1), "Address 20", "description 2", null, null);
-    const orders = [];
-    orders.push(order1);
-    orders.push(order2);
+    const [orders, setOrders] = useState([]);
+    const userData = JSON.parse(localStorage.getItem("userData"));
 
+    useEffect(() => {
+        GetSellerOrdersRequest(userData.id)
+            .then(data => {
+                setOrders(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
     
 
     return ( 
         <div className="ordersSellerShow">
-            <div className="orderSellerPreview">
+            <div className="orderSellerPreview" key={0}>
                 <p>Date of Delivery</p>
                 <p>Address</p>
                 <p>Description</p>
             </div>
             {orders.map((order) => {return (
-                <div className="orderSellerPreview" key={order.Id}>
-                    <p>{JSON.stringify(order.DeliveryTime)}</p>
-                    <p>{order.DeliveryAddress}</p>
-                    <p>{order.DeliveryDescription}</p>
-                    <div className="orderProductSellerPreview">
+                <div className="orderSellerPreview" key={order.id}>
+                    <p>{JSON.stringify(order.deliveryTime)}</p>
+                    <p>{order.deliveryAddress}</p>
+                    <p>{order.deliveryDescription}</p>
+                    <div className="orderProductSellerPreview" key={0}>
                         <p>Name</p>
-                        <p>Amount</p>
+                        <p>Price</p>
+                        <p>Selected Amount</p>
                     </div>
-                    {order.ProductsDto  && order.ProductsDto.length > 0 ?
-                        order.ProductsDto.map((product) => {
-                            console.log(product);
+                    {order.orderProductAmountsDto  && order.orderProductAmountsDto.length > 0 ?
+                        order.orderProductAmountsDto.map((orderProductAmount) => {
+                            console.log(orderProductAmount);
                             return(
-                            <div className='orderProductSellerPreview' key={product.Id}>
-                                <p>{product.Name}</p>
-                                <p>{product.Amount}</p>
+                            <div className='orderProductSellerPreview' key={orderProductAmount.id}>
+                                <p>{orderProductAmount.productDto.name}</p>
+                                <p>{orderProductAmount.productDto.price}</p>
+                                <p>{orderProductAmount.selectedAmount}</p>
                             </div>
                         )}) : null
                     }

@@ -1,12 +1,12 @@
 export default class OrderDto{
-    constructor(id = null, deliveryTime = null, deliveryAddress = null, deliveryDescription = null, buyerDto = null, orderProductAmountDto = null)
+    constructor(id = null, deliveryTime = null, deliveryAddress = null, deliveryDescription = null, buyerDto = null, orderProductAmountsDto = null)
     {
         this.Id = id;
         this.DeliveryTime = deliveryTime;
         this.DeliveryAddress = deliveryAddress;
         this.DeliveryDescription = deliveryDescription;
         this.BuyerDto = buyerDto;
-        this.OrderProductAmountDto = orderProductAmountDto;
+        this.OrderProductAmountsDto = orderProductAmountsDto;
     }
 
     AddProduct(orderProductAmountDto) {

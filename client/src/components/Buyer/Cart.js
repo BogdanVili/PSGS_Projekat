@@ -21,17 +21,16 @@ const Cart = () => {
 
     const OrderClick = () => {
         const userData = JSON.parse(localStorage.getItem("userData"));
-        const orderDto = new OrderDto(null, null, deliveryAddress, deliveryDescription, userData, orderProductAmounts);
+        const orderDto = new OrderDto(0, new Date(), deliveryAddress, deliveryDescription, userData, orderProductAmounts);
         
         AddOrderRequest(orderDto)            
             .then(data => {
-                
+                localStorage.removeItem('cartOPAs');
+                navigate('/orders-buyer');
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-
-        localStorage.removeItem('cartOPAs');
     }
 
     const deleteProductClick = (productId) => {

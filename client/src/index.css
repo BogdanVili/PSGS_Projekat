@@ -250,7 +250,7 @@ a:-webkit-any-link
   font-size: large;
 }
 
-.orderSellerPreview
+.orderSellerPreview, .orderBuyerPreview, .orderAdminPreview
 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -265,15 +265,15 @@ a:-webkit-any-link
   justify-content: center;
 }
 
-.orderSellerPreview p
+.orderSellerPreview p, .orderBuyerPreview p, .orderAdminPreview p
 {
   flex: 1;
 }
 
-.orderProductSellerPreview
+.orderProductSellerPreview, .orderProductBuyerPreview, .orderProductAdminPreview
 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 2%;
