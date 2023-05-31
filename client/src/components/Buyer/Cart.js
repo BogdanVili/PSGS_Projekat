@@ -21,6 +21,7 @@ const Cart = () => {
 
     const OrderClick = () => {
         const userData = JSON.parse(localStorage.getItem("userData"));
+
         const orderDto = new OrderDto(0, new Date(), new Date(), deliveryAddress, deliveryDescription, userData, orderProductAmounts);
         
         AddOrderRequest(orderDto)            
