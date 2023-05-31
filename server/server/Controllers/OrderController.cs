@@ -21,13 +21,6 @@ namespace server.Controllers
             return Ok(_orderService.AddOrder(orderDto));
         }
 
-        [HttpPost("delete-order/{id}")]
-        public IActionResult DeleteOrder(long id)
-        {
-            _orderService.DeleteOrder(id);
-            return Ok();
-        }
-
         [HttpPost("get-admin-orders")]
         public IActionResult GetAdminOrders([FromBody]long adminId)
         {
@@ -44,6 +37,18 @@ namespace server.Controllers
         public IActionResult GetBuyerOrders([FromBody]long buyerId)
         {
             return Ok(_orderService.GetBuyerOrders(buyerId));
+        }
+
+        [HttpPost("delete-order/{orderId}")]
+        public IActionResult DeleteOrder(long orderId, [FromBody]long buyerId)
+        {
+            return Ok(_orderService.DeleteOrder(orderId, buyerId));
+        }
+
+        [HttpGet("can-delete-order/{orderId}")]
+        public IActionResult CanDeleteOrder(long orderId)
+        {
+            return Ok(_orderService.CanDeleteOrder(orderId));
         }
     }
 }

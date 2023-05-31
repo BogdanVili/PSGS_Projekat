@@ -17,5 +17,9 @@ export const EditProductRequest = (ProductDto) => {
 }
 
 export const DeleteProductRequest = (productId, sellerId) => {
-    return FetchDataPost('http://localhost:7168/product/' + productId, sellerId);
+    return FetchDataPost('http://localhost:7168/product/delete-product/' + productId, sellerId);
+}
+
+export const CanDeleteProductRequest = (productId) => {
+    return FetchDataGet('http://localhost:7168/product/can-delete-product/' + productId);
 }

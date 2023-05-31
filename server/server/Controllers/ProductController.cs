@@ -43,8 +43,13 @@ namespace server.Controllers
         [HttpPost("delete-product/{productId}")]
         public IActionResult DeleteProduct(long productId, [FromBody]long sellerId) 
         {
-            _productService.DeleteProduct(productId, sellerId);
-            return Ok();
+            return Ok(_productService.DeleteProduct(productId, sellerId));
+        }
+
+        [HttpGet("can-delete-product/{productId}")]
+        public IActionResult CanDeleteProduct(long productId)
+        {
+            return Ok(_productService.CanDeleteProduct(productId));
         }
     }
 }

@@ -12,7 +12,7 @@ using server.Infrastructure;
 namespace server.Migrations
 {
     [DbContext(typeof(StorePSGSDbContext))]
-    [Migration("20230528150627_StorePSGS")]
+    [Migration("20230530180318_StorePSGS")]
     partial class StorePSGS
     {
         /// <inheritdoc />
@@ -141,6 +141,9 @@ namespace server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DeliveryTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("SellerId")

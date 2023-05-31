@@ -23,6 +23,17 @@ namespace server.Services
         {
             Order order = _mapper.Map<Order>(orderDto);
 
+            foreach(OrderProductAmount opa in order.OrderProductAmounts)
+            {
+                opa.Product.Seller = _dbContext.Sellers.Find(opa.Product.Seller.Id);
+            }
+
+            Random random = new Random();
+            int randomMinutes = random.Next(0, 60);
+            int randomSeconds = random.Next(0, 60);
+
+            order.DeliveryTime = DateTime.Now.Add(new TimeSpan(1, randomMinutes, randomSeconds));
+
             _dbContext.Orders.Attach(order);
 
             _dbContext.SaveChanges();
@@ -30,23 +41,6 @@ namespace server.Services
             UpdateProductAmount(order, subtractingAmount: true);
 
             return _mapper.Map<OrderDto>(order);
-        }
-
-        public void DeleteOrder(long id)
-        {
-            Order order = _dbContext.Orders.Find(id);
-
-            var orderTimeElapsed = DateTime.Now - order.DeliveryTime;
-            if (orderTimeElapsed.TotalHours >= 1)
-            {
-                return;
-            }
-
-            _dbContext.Orders.Remove(order);
-
-            _dbContext.SaveChanges();
-
-            UpdateProductAmount(order, addingAmount: true);
         }
 
         public List<OrderDto> GetAdminOrders(long adminId)
@@ -99,6 +93,51 @@ namespace server.Services
                                                   .Where(o => o.BuyerId == buyerId).ToList();
 
             return _mapper.Map<List<OrderDto>>(orders);
+        }
+
+        public bool DeleteOrder(long orderId, long buyerId)
+        {
+            if(!CanDeleteOrder(orderId))
+            {
+                return false;
+            }
+
+            try
+            {
+                Order order = _dbContext.Orders.Include(o => o.OrderProductAmounts).FirstOrDefault(o => o.Id == orderId);
+
+                _dbContext.Orders.Remove(order);
+
+                _dbContext.SaveChanges();
+
+                UpdateProductAmount(order, addingAmount: true);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public bool CanDeleteOrder(long orderId)
+        {
+            Order order = _dbContext.Orders.Include(o => o.OrderProductAmounts).FirstOrDefault(o => o.Id == orderId);
+
+            if(order == null)
+            {
+                return false;
+            }
+
+            var orderTimeElapsed = DateTime.Now - order.OrderTime;
+
+            if (orderTimeElapsed.TotalHours >= 1)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void UpdateProductAmount(Order order, bool subtractingAmount = false, bool addingAmount = false)

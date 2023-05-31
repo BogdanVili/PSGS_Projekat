@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { GetBuyerOrdersRequest } from "../../services/OrderService";
+import { CanDeleteOrderRequest, DeleteOrderRequest, GetBuyerOrdersRequest } from "../../services/OrderService";
 
 const OrdersBuyer = () => {
-    const [orders, setOrders] = useState([]);
     const userData = JSON.parse(localStorage.getItem("userData"));
+
+    const [orders, setOrders] = useState([]);
+    const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState([]);
 
     useEffect(() => {
         GetBuyerOrdersRequest(userData.id)
@@ -16,6 +18,46 @@ const OrdersBuyer = () => {
             });
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const updatedDeleteButtonsDisabled = await Promise.all(
+                orders.map(async (order) => {
+                  try {
+                    const data = await CanDeleteOrderRequest(order.id);
+                    return !data;
+                  } catch (error) {
+                    console.error('Error:', error);
+                  }
+                })
+              );
+        
+              setDeleteButtonsDisabled(updatedDeleteButtonsDisabled);
+            } catch (error) {
+              console.error('Error:', error);
+            }
+          };
+        
+          fetchData();
+    }, []);
+
+    const HandleDelete = (order) => {
+        DeleteOrderRequest(order.id, userData.id)
+            .then(() => {
+                GetBuyerOrdersRequest(userData.id)
+                .then(data => {
+                    setOrders(data);
+                    console.log(orders);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
     return ( 
         <div className="ordersBuyerShow">
             <div className="orderBuyerPreview" key={0}>
@@ -23,7 +65,8 @@ const OrdersBuyer = () => {
                 <p>Address</p>
                 <p>Description</p>
             </div>
-            {orders.map((order) => {return (
+            {orders.map((order, index) => {return (
+                <div>
                 <div className="orderBuyerPreview" key={order.id}>
                     <p>{JSON.stringify(order.deliveryTime)}</p>
                     <p>{order.deliveryAddress}</p>
@@ -47,8 +90,13 @@ const OrdersBuyer = () => {
                         )}) : null
                     }
                 </div>
-            )})
+                <div className="orderBuyerPreviewButton">
+                    <button onClick={() => HandleDelete(order)} disabled={deleteButtonsDisabled[index]}>Cancel</button>
+                </div>  
+                </div>
+            )}) 
             }
+
         </div>
      );
 }

@@ -140,6 +140,9 @@ namespace server.Migrations
                     b.Property<DateTime>("DeliveryTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("OrderTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<long?>("SellerId")
                         .HasColumnType("bigint");
 

@@ -63,13 +63,46 @@ namespace server.Services
             return _mapper.Map<ProductDto>(product);
         }
 
-        public void DeleteProduct(long productId, long sellerId)
+        public bool DeleteProduct(long productId, long sellerId)
         {
-            Product product = _dbContext.Products.Where(p => p.Id == productId && p.SellerId == sellerId).FirstOrDefault();
+            if(!CanDeleteProduct(productId))
+            {
+                return false;
+            }
 
-            _dbContext.Products.Remove(product);
+            try
+            {
+                Product product = _dbContext.Products.Where(p => p.Id == productId && p.SellerId == sellerId).FirstOrDefault();
 
-            _dbContext.SaveChanges();
+                _dbContext.Products.Remove(product);
+
+                _dbContext.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool CanDeleteProduct(long productId)
+        {
+            Product product = _dbContext.Products.Include(p => p.OrderProductAmounts).FirstOrDefault(p => p.Id == productId);
+
+            if(product == null)
+            {
+                return false;
+            }
+
+            List<OrderProductAmount> opa = product.OrderProductAmounts;
+
+            if(opa == null)
+            {
+                return true;
+            }
+
+            return (opa.Count == 0);
         }
     }
 }
