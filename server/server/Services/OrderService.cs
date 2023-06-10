@@ -32,7 +32,7 @@ namespace server.Services
             int randomMinutes = random.Next(0, 60);
             int randomSeconds = random.Next(0, 60);
 
-            order.DeliveryTime = DateTime.Now.Add(new TimeSpan(1, randomMinutes, randomSeconds));
+            order.DeliveryTime = DateTime.UtcNow.Add(new TimeSpan(1, randomMinutes, randomSeconds));
 
             _dbContext.Orders.Attach(order);
 
@@ -106,6 +106,13 @@ namespace server.Services
             {
                 Order order = _dbContext.Orders.Include(o => o.OrderProductAmounts).FirstOrDefault(o => o.Id == orderId);
 
+                foreach(OrderProductAmount orderProductAmount in order.OrderProductAmounts)
+                {
+                    _dbContext.OrderProductAmounts.Remove(orderProductAmount);
+                }
+
+                _dbContext.SaveChanges();
+
                 _dbContext.Orders.Remove(order);
 
                 _dbContext.SaveChanges();
@@ -130,7 +137,7 @@ namespace server.Services
                 return false;
             }
 
-            var orderTimeElapsed = DateTime.Now - order.OrderTime;
+            var orderTimeElapsed = DateTime.UtcNow - order.OrderTime;
 
             if (orderTimeElapsed.TotalHours >= 1)
             {

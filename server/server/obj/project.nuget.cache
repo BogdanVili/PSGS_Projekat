@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "lRI9QfYmmAvCqFVRoa1iemA9QI7YEQbAsFmEcgM97ULuTT76SGkH368GwiHOP/KA0MBsA0IQbwFpUr1zN2eHMQ==",
+  "dgSpecHash": "gWDZ9rq4JstHmArM9wFeDyJkHSnFn5vCY/zsfCmIANe3W0MSo+SBPHDJgl68KhS/KgjHn2RhqgzSPoNFxnHYMw==",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\source\\repos\\PSGS_Projekat\\server\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

@@ -9,7 +9,8 @@ const ProductsBuyer = () => {
     const [selectedAmounts, setSelectedAmounts] = useState([]);
     const [cartProductIds, setCartProductIds] = useState([]);
     const [addToCartButtonsDisabled, setAddToCartButtonsDisabled] = useState([]);
-
+    const [productErrorMessages, setProductErrorMessages] = useState([]);
+    
     useEffect(() => {
         GetAllProducts()
             .then(data => {
@@ -46,11 +47,23 @@ const ProductsBuyer = () => {
     setAddToCartButtonsDisabled(updatedAddToCartButtonsDisabled);
     }, [cartProductIds]);
 
-    const addToCartClick = (product, selectedAmount) => {
+    const addToCartClick = (product, selectedAmount, index) => {
         if(selectedAmount <= 0)
         {
             return;
         }
+
+        if(selectedAmount > product.amount)
+        {
+            const updatedProductErrorMessages = [...productErrorMessages];
+            updatedProductErrorMessages[index] = "Selected amount is not available";
+            setProductErrorMessages(updatedProductErrorMessages);
+            return;
+        }
+
+        const updatedProductErrorMessages = [...productErrorMessages];
+        updatedProductErrorMessages[index] = "";
+        setProductErrorMessages(updatedProductErrorMessages);
 
         const productDto = new ProductDto(product.id, product.name, product.price, product.amount, product.description, product.image, product.sellerDto);
         const orderProductAmountDto = new OrderProductAmountDto(productDto, selectedAmount);
@@ -88,7 +101,10 @@ const ProductsBuyer = () => {
             </div>
             {products.map((product, index) => 
                 {
-                return(<div className="productBuyerPreview" key={product.id}>
+                return(
+                <div>
+                <p className='productBuyerPreviewError'>{productErrorMessages[index]}</p>
+                <div className="productBuyerPreview" key={product.id}>
                     <h2>{product.name}</h2>
                     <p>{product.price}</p>
                     <p>{product.amount}</p>
@@ -103,7 +119,8 @@ const ProductsBuyer = () => {
                            }}>
                     </input>
 
-                    <button onClick={() => addToCartClick(product, selectedAmounts[index])} disabled={addToCartButtonsDisabled[index]}>Add to Cart</button>
+                    <button onClick={() => addToCartClick(product, selectedAmounts[index], index)} disabled={addToCartButtonsDisabled[index]}>Add to Cart</button>
+                </div>
                 </div>)
                 }
             )}  

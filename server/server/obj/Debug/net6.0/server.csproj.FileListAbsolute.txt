@@ -86,3 +86,4 @@ C:\Users\HP\source\repos\PSGS_Projekat\server\server\bin\Debug\net6.0\System.Cod
 C:\Users\HP\source\repos\PSGS_Projekat\server\server\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 C:\Users\HP\source\repos\PSGS_Projekat\server\server\bin\Debug\net6.0\System.Text.Json.dll
 C:\Users\HP\source\repos\PSGS_Projekat\server\server\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\HP\source\repos\PSGS_Projekat\server\server\bin\Debug\net6.0\BCrypt.Net-Next.dll

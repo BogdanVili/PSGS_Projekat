@@ -31,9 +31,8 @@ namespace server
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
 
-            //registracija db contexta u kontejneru zavisnosti, njegov zivotni vek je Scoped
             services.AddDbContext<StorePSGSDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StorePSGSDatabase")));
-            //Registracija mapera u kontejneru, zivotni vek singleton
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());

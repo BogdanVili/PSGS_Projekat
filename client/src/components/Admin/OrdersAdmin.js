@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetAdminOrdersRequest } from "../../services/OrderService";
+import Moment from 'moment';
 
 const OrdersAdmin = () => {
     const [orders, setOrders] = useState([]);
@@ -9,6 +10,7 @@ const OrdersAdmin = () => {
         GetAdminOrdersRequest(userData.id)
             .then(data => {
                 setOrders(data);
+                console.log(orders);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -17,21 +19,26 @@ const OrdersAdmin = () => {
 
     return ( 
         <div className="ordersAdminShow">
-            <div className="orderAdminPreview" key={0}>
-                <p>Date of Delivery</p>
-                <p>Address</p>
-                <p>Description</p>
-            </div>
+
             {orders.map((order) => {return (
+                <div>
+                <div className="orderAdminPreview" key={0}>
+                    <p>Date of Delivery</p>
+                    <p>Address</p>
+                    <p>Description</p>
+                    <p>Buyer</p>
+                </div>
                 <div className="orderAdminPreview" key={order.id}>
-                    <p>{JSON.stringify(order.deliveryTime)}</p>
+                    <p>{Moment(order.deliveryTime).format('hh:mm DD-MM-YYYY') }</p>
                     <p>{order.deliveryAddress}</p>
                     <p>{order.deliveryDescription}</p>
+                    <p>{order.buyerDto.firstAndLastName}</p>
                     <div className="orderProductAdminPreview" key={0}>
                         <p>Name</p>
-                        <p>Price</p>
+                        <p>Total Price</p>
                         <p>Selected Amount</p>
                         <p>Seller</p>
+                        <p>Image</p>
                     </div>
                     {order.orderProductAmountsDto  && order.orderProductAmountsDto.length > 0 ?
                         order.orderProductAmountsDto.map((orderProductAmount) => {
@@ -39,12 +46,14 @@ const OrdersAdmin = () => {
                             return(
                             <div className='orderProductAdminPreview' key={orderProductAmount.id}>
                                 <p>{orderProductAmount.productDto.name}</p>
-                                <p>{orderProductAmount.productDto.price}</p>
+                                <p>{orderProductAmount.productDto.price * orderProductAmount.selectedAmount}</p>
                                 <p>{orderProductAmount.selectedAmount}</p>
                                 <p>{orderProductAmount.productDto.sellerDto.firstAndLastName}</p>
+                                <img src={orderProductAmount.productDto.image} alt='img' height={100} width={100}></img>
                             </div>
                         )}) : null
                     }
+                </div>
                 </div>
             )})
             }

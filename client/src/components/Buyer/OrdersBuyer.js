@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CanDeleteOrderRequest, DeleteOrderRequest, GetBuyerOrdersRequest } from "../../services/OrderService";
+import Moment from 'moment';
 
 const OrdersBuyer = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -11,7 +12,6 @@ const OrdersBuyer = () => {
         GetBuyerOrdersRequest(userData.id)
             .then(data => {
                 setOrders(data);
-                console.log(orders);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -25,6 +25,7 @@ const OrdersBuyer = () => {
                 orders.map(async (order) => {
                   try {
                     const data = await CanDeleteOrderRequest(order.id);
+                    console.log(data);
                     return !data;
                   } catch (error) {
                     console.error('Error:', error);
@@ -39,7 +40,7 @@ const OrdersBuyer = () => {
           };
         
           fetchData();
-    }, []);
+    }, [orders]);
 
     const HandleDelete = (order) => {
         DeleteOrderRequest(order.id, userData.id)
@@ -47,7 +48,6 @@ const OrdersBuyer = () => {
                 GetBuyerOrdersRequest(userData.id)
                 .then(data => {
                     setOrders(data);
-                    console.log(orders);
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -60,32 +60,33 @@ const OrdersBuyer = () => {
 
     return ( 
         <div className="ordersBuyerShow">
-            <div className="orderBuyerPreview" key={0}>
-                <p>Date of Delivery</p>
-                <p>Address</p>
-                <p>Description</p>
-            </div>
             {orders.map((order, index) => {return (
                 <div>
+                <div className="orderBuyerPreview" key={0}>
+                    <p>Date of Delivery</p>
+                    <p>Address</p>
+                    <p>Description</p>
+                </div>
                 <div className="orderBuyerPreview" key={order.id}>
-                    <p>{JSON.stringify(order.deliveryTime)}</p>
+                    <p>{Moment(order.deliveryTime).format('hh:mm DD-MM-YYYY')}</p>
                     <p>{order.deliveryAddress}</p>
                     <p>{order.deliveryDescription}</p>
                     <div className="orderProductBuyerPreview" key={0}>
                         <p>Name</p>
-                        <p>Price</p>
+                        <p>Total Price</p>
                         <p>Selected Amount</p>
                         <p>Seller</p>
+                        <p>Image</p>
                     </div>
                     {order.orderProductAmountsDto  && order.orderProductAmountsDto.length > 0 ?
                         order.orderProductAmountsDto.map((orderProductAmount) => {
-                            console.log(orderProductAmount);
                             return(
                             <div className='orderProductBuyerPreview' key={orderProductAmount.id}>
                                 <p>{orderProductAmount.productDto.name}</p>
-                                <p>{orderProductAmount.productDto.price}</p>
+                                <p>{orderProductAmount.productDto.price * orderProductAmount.selectedAmount}</p>
                                 <p>{orderProductAmount.selectedAmount}</p>
                                 <p>{orderProductAmount.productDto.sellerDto.firstAndLastName}</p>
+                                <img src={orderProductAmount.productDto.image} alt='img' height={100} width={100}></img>
                             </div>
                         )}) : null
                     }

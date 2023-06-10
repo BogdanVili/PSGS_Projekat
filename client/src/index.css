@@ -176,6 +176,13 @@ a:-webkit-any-link
   object-fit: contain;
 }
 
+.productBuyerPreviewError
+{
+  text-align: center;
+  font-size: large;
+  color: #C62827;
+}
+
 .productSellerPreview p, h2, img
 {
   display: flex;
@@ -196,6 +203,12 @@ a:-webkit-any-link
 .productCartPreview img
 {
   object-fit: contain;
+}
+
+.productCartPreview input
+{
+  width: 200%;
+  
 }
 
 .orderButton
@@ -273,7 +286,7 @@ a:-webkit-any-link
 .orderProductSellerPreview, .orderProductBuyerPreview, .orderProductAdminPreview
 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 2%;
@@ -299,5 +312,20 @@ a:-webkit-any-link
   border: 1px solid #f2f2f2;
   align-items: center;
   justify-content: center;
+}
+
+.orderAdminPreview, .orderSellerPreview
+{
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.orderProductAdminPreview
+{
+  grid-column: span 4;
+}
+
+.orderProductSellerPreview
+{
+  grid-column: span 4;
 }
 
