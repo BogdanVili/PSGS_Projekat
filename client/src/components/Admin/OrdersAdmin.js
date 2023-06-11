@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetAdminOrdersRequest } from "../../services/OrderService";
-import Moment from 'moment';
+import moment from 'moment-timezone';
 
 const OrdersAdmin = () => {
     const [orders, setOrders] = useState([]);
@@ -10,7 +10,6 @@ const OrdersAdmin = () => {
         GetAdminOrdersRequest(userData.id)
             .then(data => {
                 setOrders(data);
-                console.log(orders);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -29,7 +28,7 @@ const OrdersAdmin = () => {
                     <p>Buyer</p>
                 </div>
                 <div className="orderAdminPreview" key={order.id}>
-                    <p>{Moment(order.deliveryTime).format('hh:mm DD-MM-YYYY') }</p>
+                    <p>{moment(order.deliveryTime).utcOffset('+0400').format('hh:mm DD-MM-YYYY') }</p>
                     <p>{order.deliveryAddress}</p>
                     <p>{order.deliveryDescription}</p>
                     <p>{order.buyerDto.firstAndLastName}</p>
@@ -42,7 +41,6 @@ const OrdersAdmin = () => {
                     </div>
                     {order.orderProductAmountsDto  && order.orderProductAmountsDto.length > 0 ?
                         order.orderProductAmountsDto.map((orderProductAmount) => {
-                            console.log(orderProductAmount);
                             return(
                             <div className='orderProductAdminPreview' key={orderProductAmount.id}>
                                 <p>{orderProductAmount.productDto.name}</p>

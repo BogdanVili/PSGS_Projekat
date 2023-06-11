@@ -11,12 +11,13 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const loginData = new LoginDto(username, password);
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     const LoginClick = (event) => 
     {
         event.preventDefault();
         GetUserAccount(loginData)
                     .then(data => {
-                        console.log(data);
                         localStorage.setItem("userData", JSON.stringify(data));
                         localStorage.setItem("userType", JSON.stringify(data.type));
                         eventBus.emit('loggedInChange', true);
@@ -39,6 +40,7 @@ const Login = () => {
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        setErrorMessage("Wrong username or password");
                     });
     }
 
@@ -58,7 +60,8 @@ const Login = () => {
                    onChange={(event) => setPassword(event.target.value)}
             />
             <br/>
-            <br/>
+            <p className="loginError">{errorMessage}</p>
+            
             <button>Login</button>
         </form>
      );

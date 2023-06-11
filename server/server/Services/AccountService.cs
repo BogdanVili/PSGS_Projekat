@@ -27,6 +27,8 @@ namespace server.Services
                 return null;
             }
 
+            sellerDto.Password = BCrypt.Net.BCrypt.HashPassword(sellerDto.Password);
+
             Seller seller = _mapper.Map<Seller>(sellerDto);
 
             _dbContext.Sellers.Add(seller);
@@ -41,6 +43,8 @@ namespace server.Services
             {
                 return null;
             }
+
+            buyerDto.Password = BCrypt.Net.BCrypt.HashPassword(buyerDto.Password);
 
             Buyer buyer = _mapper.Map<Buyer>(buyerDto);
             _dbContext.Buyers.Add(buyer);
@@ -67,7 +71,13 @@ namespace server.Services
         public SellerDto EditSeller(SellerDto sellerDto)
         {
             Seller seller = _dbContext.Sellers.Find(sellerDto.Id);
-            seller.Password = sellerDto.Password;
+
+            if(seller == null)
+            {
+                return null;
+            }
+
+            seller.Password = BCrypt.Net.BCrypt.HashPassword(sellerDto.Password);
             seller.Email = sellerDto.Email;
             seller.FirstAndLastName = sellerDto.FirstAndLastName;
             seller.DateOfBirth = sellerDto.DateOfBirth;
@@ -82,7 +92,13 @@ namespace server.Services
         public BuyerDto EditBuyer(BuyerDto buyerDto)
         {
             Buyer buyer = _dbContext.Buyers.Find(buyerDto.Id);
-            buyer.Password = buyerDto.Password;
+
+            if(buyer == null)
+            {
+                return null;
+            }
+
+            buyer.Password = BCrypt.Net.BCrypt.HashPassword(buyerDto.Password);
             buyer.Email = buyerDto.Email;
             buyer.FirstAndLastName = buyerDto.FirstAndLastName;
             buyer.DateOfBirth = buyerDto.DateOfBirth;
@@ -121,9 +137,14 @@ namespace server.Services
                 }
             }
 
-            if (_dbContext.Sellers.Any(s => s.Username == username && s.Password == password))
+            if (_dbContext.Sellers.Any(s => s.Username == username))
             {
                 Seller seller = _dbContext.Sellers.Where(s => s.Username == username).FirstOrDefault();
+
+                if(!BCrypt.Net.BCrypt.Verify(password, seller.Password))
+                {
+                    return null;
+                }
 
                 if (seller != null)
                 {
@@ -131,9 +152,14 @@ namespace server.Services
                 }
             }
 
-            if (_dbContext.Buyers.Any(b => b.Username == username && b.Password == password))
+            if (_dbContext.Buyers.Any(b => b.Username == username))
             {
                 Buyer buyer = _dbContext.Buyers.Where(b => b.Username == username).FirstOrDefault();
+
+                if (!BCrypt.Net.BCrypt.Verify(password, buyer.Password))
+                {
+                    return null;
+                }
 
                 if (buyer != null)
                 {

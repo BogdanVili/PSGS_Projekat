@@ -17,8 +17,6 @@ const ApproveSellers = () => {
     const handleApprove = (sellerId) => {
         ApproveSeller(sellerId, true)
         .then(data => {
-            console.log(data.id);
-            console.log(data.approval);
             const updatedSellers = sellers.map(seller => {
                 if (seller.id === data.id) {
                   return { ...seller, approval: data.approval };

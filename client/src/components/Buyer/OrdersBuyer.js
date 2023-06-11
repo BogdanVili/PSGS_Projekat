@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CanDeleteOrderRequest, DeleteOrderRequest, GetBuyerOrdersRequest } from "../../services/OrderService";
-import Moment from 'moment';
+import moment from 'moment-timezone';
 
 const OrdersBuyer = () => {
     const userData = JSON.parse(localStorage.getItem("userData"));
@@ -25,7 +25,6 @@ const OrdersBuyer = () => {
                 orders.map(async (order) => {
                   try {
                     const data = await CanDeleteOrderRequest(order.id);
-                    console.log(data);
                     return !data;
                   } catch (error) {
                     console.error('Error:', error);
@@ -68,7 +67,7 @@ const OrdersBuyer = () => {
                     <p>Description</p>
                 </div>
                 <div className="orderBuyerPreview" key={order.id}>
-                    <p>{Moment(order.deliveryTime).format('hh:mm DD-MM-YYYY')}</p>
+                    <p>{moment(order.deliveryTime).utcOffset('+0400').format('hh:mm DD-MM-YYYY')}</p>
                     <p>{order.deliveryAddress}</p>
                     <p>{order.deliveryDescription}</p>
                     <div className="orderProductBuyerPreview" key={0}>

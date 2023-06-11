@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const ApprovalPage = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   
-  console.log("hello");
   if(userData.approval === null)
   {
     return (

@@ -2,7 +2,7 @@ import OrderDto from '../../dto/OrderDto'
 import ProductDto from '../../dto/ProductDto';
 import { GetSellerOrdersRequest } from '../../services/OrderService';
 import { useState, useEffect } from 'react';
-import Moment from 'moment';
+import moment from 'moment-timezone';
 
 const OrdersSeller = () => {
     const [orders, setOrders] = useState([]);
@@ -31,7 +31,7 @@ const OrdersSeller = () => {
                     <p>Buyer</p>
                 </div>
                 <div className="orderSellerPreview" key={order.id}>
-                    <p>{Moment(order.deliveryTime).format('hh:mm DD-MM-YYYY')}</p>
+                    <p>{moment(order.deliveryTime).utcOffset('+0400').format('hh:mm DD-MM-YYYY')}</p>
                     <p>{order.deliveryAddress}</p>
                     <p>{order.deliveryDescription}</p>
                     <p>{order.buyerDto.firstAndLastName}</p>
@@ -43,7 +43,6 @@ const OrdersSeller = () => {
                     </div>
                     {order.orderProductAmountsDto  && order.orderProductAmountsDto.length > 0 ?
                         order.orderProductAmountsDto.map((orderProductAmount) => {
-                            console.log(orderProductAmount);
                             return(
                             <div className='orderProductSellerPreview' key={orderProductAmount.id}>
                                 <p>{orderProductAmount.productDto.name}</p>

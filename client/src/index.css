@@ -329,3 +329,15 @@ a:-webkit-any-link
   grid-column: span 4;
 }
 
+.approveSellerPreview
+{
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.loginError
+{
+  text-align: center;
+  font-size: large;
+  color: #C62827;
+}
+
