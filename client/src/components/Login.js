@@ -60,7 +60,7 @@ const Login = () => {
                    onChange={(event) => setPassword(event.target.value)}
             />
             <br/>
-            <p className="loginError">{errorMessage}</p>
+            <span className="loginError">{errorMessage}</span>
             
             <button>Login</button>
         </form>

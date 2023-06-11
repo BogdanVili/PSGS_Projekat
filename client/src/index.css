@@ -341,3 +341,10 @@ a:-webkit-any-link
   color: #C62827;
 }
 
+.errorRetypePassword
+{
+  text-align: center;
+  font-size: large;
+  color: #C62827;
+}
+

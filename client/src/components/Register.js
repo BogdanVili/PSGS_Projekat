@@ -18,6 +18,9 @@ const Register = () => {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
+    const [passwordRetype, setPasswordRetype] = useState('');
+    const [errorRetypePassword, setErrorRetypePassword] = useState();
+
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -33,6 +36,12 @@ const Register = () => {
 
     const RegisterClick = (event) => {
         event.preventDefault();
+
+        if(password !== passwordRetype)
+        {
+            setErrorRetypePassword('Passwords do not match');
+            return;
+        }
 
         if(userType === "SELLER")
         {
@@ -77,11 +86,18 @@ const Register = () => {
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}></input>
         <br/>
+        <span className="errorRetypePassword">{errorRetypePassword}</span>
             <label>Password:</label>
             <input type="password"
                 required
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}></input>
+        <br/>
+            <label>Retype Password:</label>
+            <input type="password"
+                required
+                value={passwordRetype}
+                onChange={(event) => setPasswordRetype(event.target.value)}></input>
         <br/>
             <label>Email:</label>
             <input type="email" 
